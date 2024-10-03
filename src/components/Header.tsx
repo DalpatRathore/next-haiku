@@ -11,7 +11,10 @@ const Header = () => {
         <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
           <Link href={"/"} className="flex items-center justify-center gap-2">
             <Image src={"/logo.svg"} width={75} height={75} alt="logo" />
-            <h1 className="hidden md:block text-2xl font-bold">Next Haiku</h1>
+            <h1 className="hidden md:block text-2xl font-bold">
+              <span className="text-[#4e4187]">Next</span>
+              <span className="text-[#fca311]">Haiku</span>
+            </h1>
           </Link>
 
           <div className="flex items-center gap-4">
