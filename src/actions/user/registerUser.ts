@@ -1,5 +1,5 @@
 "use server";
-import UserModel from "@/models/User";
+import UserModel from "@/models/user.model";
 import { registerFormSchema } from "@/types/types";
 import bcrypt from 'bcryptjs';
 import jwt from "jsonwebtoken";
@@ -79,7 +79,7 @@ export const registerUser = async (formData: FormData) => {
             success: true,
             message: "User registration successful.",
         };
-    //    redirect("/"); 
+
        
     } catch (error) {
         console.error("Error registering user:", error);

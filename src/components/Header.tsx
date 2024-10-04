@@ -1,14 +1,16 @@
 import React from "react";
 import { Button } from "./ui/button";
-import { LogOutIcon, SquareArrowOutUpRightIcon } from "lucide-react";
+import { SquareArrowOutUpRightIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 import UserAccount from "./UserAccount";
 import { getUser } from "@/actions/user/getUser";
+import LogoutUser from "./LogoutUser";
 
 const Header = async () => {
   const authUser = await getUser();
+
   return (
     <header className="border-b ">
       <div className="mx-auto max-w-screen-xl px-4 py-6">
@@ -25,15 +27,7 @@ const Header = async () => {
             {authUser.user ? (
               <>
                 <UserAccount user={authUser.user}></UserAccount>
-                <Button
-                  type="button"
-                  variant={"outline"}
-                  size={"icon"}
-                  className="flex items-center gap-2"
-                  title="Logout"
-                >
-                  <LogOutIcon className="w-4 h-4" />
-                </Button>
+                <LogoutUser></LogoutUser>
               </>
             ) : (
               <Button

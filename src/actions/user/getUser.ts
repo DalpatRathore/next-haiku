@@ -1,7 +1,7 @@
 "use server";
-import UserModel from "@/models/User";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
+import UserModel from "@/models/user.model";
 
 const JWT_SECRET = process.env.JWT_SECRET || "mySuperSecretKey123!";
 

@@ -57,7 +57,7 @@ const RegisterForm = () => {
       } else {
         toast.success("User registered successfully!");
         form.reset();
-        router.push("/");
+        router.replace("/dashboard");
       }
     } catch (error) {
       console.log(error);
