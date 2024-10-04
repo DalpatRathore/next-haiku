@@ -28,8 +28,8 @@ import { Input } from "@/components/ui/input";
 import { haikuFormSchema } from "@/types/types";
 import { Separator } from "../ui/separator";
 import { Loader2Icon, SlidersHorizontalIcon } from "lucide-react";
-import { createHaiku } from "@/actions/haikus/create-haiku";
-import { updateHaiku } from "@/actions/haikus/update-haiku";
+import { createHaiku } from "@/actions/haikus/createHaiku";
+import { updateHaiku } from "@/actions/haikus/updateHaiku";
 import toast from "react-hot-toast";
 
 type HaikuFormProps = {

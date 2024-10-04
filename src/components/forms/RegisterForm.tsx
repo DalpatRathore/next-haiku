@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { registerFormSchema } from "@/types/types";
-import { registerUser } from "@/actions/user/register-user";
+import { registerUser } from "@/actions/user/registerUser";
 import toast from "react-hot-toast";
 import { Loader2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
