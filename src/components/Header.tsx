@@ -7,7 +7,7 @@ import ThemeToggle from "./ThemeToggle";
 import UserAccount from "./UserAccount";
 
 const Header = () => {
-  const authUser = true;
+  const authUser = false;
   return (
     <header className="border-b ">
       <div className="mx-auto max-w-screen-xl px-4 py-6">
@@ -24,7 +24,6 @@ const Header = () => {
             {authUser ? (
               <>
                 <UserAccount></UserAccount>
-
                 <Button
                   type="button"
                   variant={"outline"}

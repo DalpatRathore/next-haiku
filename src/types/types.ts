@@ -20,3 +20,24 @@ export const registerFormSchema = z.object({
       message: "Password must be at least 6 characters long.",
     }),
   });
+
+  // Utility function to count syllables
+const countSyllables = (line: string): number => {
+  // A simple heuristic method to count syllables. There are more advanced ways.
+  return line
+    .toLowerCase()
+    .match(/[aeiouy]+[^$e(,.:;]/g)?.length || 0; 
+};
+
+// Custom Zod refinement for syllable validation
+const haikuLine = (syllableCount: number) =>
+  z.string().min(1, { message: "Line cannot be empty." }).refine((line) => {
+    return countSyllables(line) === syllableCount;
+  }, { message: `Line must have exactly ${syllableCount} syllables.` });
+
+export const haikuFormSchema = z.object({
+  line1: haikuLine(5), // First line must have 5 syllables
+  line2: haikuLine(7), // Second line must have 7 syllables
+  line3: haikuLine(5), // Third line must have 5 syllables
+});
+
