@@ -15,7 +15,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { JwtPayload } from "jsonwebtoken";
 
 import {
   AtSignIcon,
@@ -26,9 +25,12 @@ import {
 } from "lucide-react";
 
 type UserAccountProps = {
-  authUser: { name: string } | JwtPayload;
+  user: {
+    name: string;
+    email: string;
+  };
 };
-const UserAccount = ({ authUser: { name } }: UserAccountProps) => {
+const UserAccount = ({ user: { name, email } }: UserAccountProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -60,10 +62,10 @@ const UserAccount = ({ authUser: { name } }: UserAccountProps) => {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <p className="truncate">example@example.com</p>
+                  <p className="truncate">{email}</p>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>example@example.com</p>
+                  <p>{email}</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

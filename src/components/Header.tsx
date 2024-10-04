@@ -5,12 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 import UserAccount from "./UserAccount";
-import { getAuthUser } from "@/lib/getAuthUser";
+import { getUser } from "@/actions/user/getUser";
 
-const Header = () => {
-  const authUser = getAuthUser();
-  console.log(authUser);
-
+const Header = async () => {
+  const authUser = await getUser();
   return (
     <header className="border-b ">
       <div className="mx-auto max-w-screen-xl px-4 py-6">
@@ -24,9 +22,9 @@ const Header = () => {
           </Link>
 
           <div className="flex items-center gap-4">
-            {authUser ? (
+            {authUser.user ? (
               <>
-                <UserAccount authUser={authUser}></UserAccount>
+                <UserAccount user={authUser.user}></UserAccount>
                 <Button
                   type="button"
                   variant={"outline"}
