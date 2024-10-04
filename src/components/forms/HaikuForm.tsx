@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Link from "next/link";
 
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -32,20 +32,21 @@ import { createHaiku } from "@/actions/haikus/createHaiku";
 import { updateHaiku } from "@/actions/haikus/updateHaiku";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { Haiku } from "../HaikuCard";
 
 type HaikuFormProps = {
   formType: "Create" | "Update";
-  haikuId?: string;
+  haiku?: Haiku;
 };
 
-const HaikuForm = ({ formType, haikuId }: HaikuFormProps) => {
+const HaikuForm = ({ formType, haiku }: HaikuFormProps) => {
   const router = useRouter();
   const form = useForm<z.infer<typeof haikuFormSchema>>({
     resolver: zodResolver(haikuFormSchema),
     defaultValues: {
-      line1: "",
-      line2: "",
-      line3: "",
+      line1: haiku?.line1 || "",
+      line2: haiku?.line2 || "",
+      line3: haiku?.line3 || "",
     },
   });
 
@@ -61,9 +62,8 @@ const HaikuForm = ({ formType, haikuId }: HaikuFormProps) => {
       if (formType === "Create") {
         await createHaiku(formData);
         toast.success("Haiku created successfully!");
-      } else if (formType === "Update" && haikuId) {
-        await updateHaiku(formData);
-
+      } else if (formType === "Update" && haiku) {
+        await updateHaiku(formData, haiku._id);
         toast.success("Haiku updated successfully!");
       }
       form.reset();
@@ -73,6 +73,32 @@ const HaikuForm = ({ formType, haikuId }: HaikuFormProps) => {
       console.log(error);
     }
   };
+  useEffect(() => {
+    if (haiku) {
+      form.reset({
+        line1: haiku?.line1 || "",
+        line2: haiku?.line2 || "",
+        line3: haiku?.line3 || "",
+      });
+    }
+  }, [haiku, form]);
+
+  if (formType === "Update" && !haiku) {
+    return (
+      <div className="w-full max-w-lg mx-auto">
+        <Card className="text-center h-32 flex items-center justify-center">
+          <CardContent className="p-0">
+            <p className="text-lg font-semibold">No record found!</p>
+          </CardContent>
+        </Card>
+        <div className="mt-10 flex items-center justify-center">
+          <Button variant={"outline"} className="">
+            <Link href={"/dashboard"}>Back to Dashboard</Link>
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <Card className="w-full mx-auto max-w-lg">
