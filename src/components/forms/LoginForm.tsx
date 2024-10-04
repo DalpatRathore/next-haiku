@@ -25,8 +25,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { loginFormSchema } from "@/types/types";
+import { loginUser } from "@/actions/user/loginUser";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -36,7 +40,22 @@ const LoginForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof loginFormSchema>) => {
-    console.log(values);
+    const formData = new FormData();
+    formData.append("email", values.email);
+    formData.append("password", values.password);
+    try {
+      const response = await loginUser(formData);
+      if (!response?.success) {
+        toast.error(response?.message);
+      } else {
+        toast.success("Login successfully!");
+        form.reset();
+        router.replace("/dashboard");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong!");
+    }
   };
   return (
     <Card className="w-full mx-auto max-w-lg">
