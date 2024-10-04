@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Link from "next/link";
 
+import React from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -24,8 +26,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { registerFormSchema } from "@/types/types";
+import { registerUser } from "@/actions/user/register-user";
+import toast from "react-hot-toast";
+import { Loader2Icon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof registerFormSchema>>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: {
@@ -35,8 +42,27 @@ const RegisterForm = () => {
     },
   });
 
+  const { isSubmitting } = form.formState;
+
   const onSubmit = async (values: z.infer<typeof registerFormSchema>) => {
-    console.log(values);
+    try {
+      const formData = new FormData();
+      formData.append("name", values.name);
+      formData.append("email", values.email);
+      formData.append("password", values.password);
+
+      const response = await registerUser(formData);
+      if (!response?.success) {
+        toast.error(response?.message);
+      } else {
+        toast.success("User registered successfully!");
+        form.reset();
+        router.push("/");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong!");
+    }
   };
   return (
     <Card className="w-full mx-auto max-w-lg">
@@ -89,8 +115,15 @@ const RegisterForm = () => {
               )}
             />
 
-            <Button type="submit" className="w-full">
-              Create an account
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  Submitting...
+                  <Loader2Icon className="w-4 h-4 ml-2 animate-spin" />
+                </>
+              ) : (
+                "Create an account"
+              )}
             </Button>
           </form>
         </Form>
