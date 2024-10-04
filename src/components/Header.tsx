@@ -1,13 +1,13 @@
 import React from "react";
 import { Button } from "./ui/button";
-import { LogInIcon, LogOutIcon } from "lucide-react";
+import { LogOutIcon, SquareArrowOutUpRightIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 import UserAccount from "./UserAccount";
 
 const Header = () => {
-  const authUser = false;
+  const authUser = true;
   return (
     <header className="border-b ">
       <div className="mx-auto max-w-screen-xl px-4 py-6">
@@ -42,10 +42,10 @@ const Header = () => {
                 title="Login"
                 className="flex items-center gap-2"
                 asChild
+                size={"icon"}
               >
                 <Link href={"/sign-in"}>
-                  <span className="hidden md:block">Login</span>
-                  <LogInIcon className="w-4 h-4" />
+                  <SquareArrowOutUpRightIcon className="w-4 h-4" />
                 </Link>
               </Button>
             )}
