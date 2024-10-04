@@ -31,6 +31,7 @@ import { Loader2Icon, SlidersHorizontalIcon } from "lucide-react";
 import { createHaiku } from "@/actions/haikus/createHaiku";
 import { updateHaiku } from "@/actions/haikus/updateHaiku";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 type HaikuFormProps = {
   formType: "Create" | "Update";
@@ -38,6 +39,7 @@ type HaikuFormProps = {
 };
 
 const HaikuForm = ({ formType, haikuId }: HaikuFormProps) => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof haikuFormSchema>>({
     resolver: zodResolver(haikuFormSchema),
     defaultValues: {
@@ -51,15 +53,21 @@ const HaikuForm = ({ formType, haikuId }: HaikuFormProps) => {
 
   const onSubmit = async (values: z.infer<typeof haikuFormSchema>) => {
     try {
+      const formData = new FormData();
+      formData.append("line1", values.line1);
+      formData.append("line2", values.line2);
+      formData.append("line3", values.line3);
+
       if (formType === "Create") {
-        await createHaiku(values);
+        await createHaiku(formData);
         toast.success("Haiku created successfully!");
       } else if (formType === "Update" && haikuId) {
-        await updateHaiku(values);
+        await updateHaiku(formData);
 
         toast.success("Haiku updated successfully!");
       }
       form.reset();
+      router.replace("/dashboard");
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
       console.log(error);
@@ -79,7 +87,7 @@ const HaikuForm = ({ formType, haikuId }: HaikuFormProps) => {
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="space-y-3">
+            <div className="space-y-5">
               <FormField
                 control={form.control}
                 name="line1"
@@ -127,13 +135,11 @@ const HaikuForm = ({ formType, haikuId }: HaikuFormProps) => {
               />
             </div>
             <Separator className="my-5"></Separator>
-            <Button type="submit" className="w-full">
-              Create Haiku
-            </Button>
+
             <Button type="submit" className="w-full" disabled={isSubmitting}>
               {isSubmitting ? (
                 <>
-                  Submitting...
+                  Processing...
                   <Loader2Icon className="w-4 h-4 ml-2 animate-spin" />
                 </>
               ) : formType === "Create" ? (

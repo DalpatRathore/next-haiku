@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import UserModel from "@/models/user.model";
 
-const JWT_SECRET = process.env.JWT_SECRET || "mySuperSecretKey123!";
+const JWT_SECRET = process.env.JWT_SECRET!
 
 export const getUser = async () => {
     try {

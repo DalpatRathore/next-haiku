@@ -40,10 +40,10 @@ const LoginForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof loginFormSchema>) => {
-    const formData = new FormData();
-    formData.append("email", values.email);
-    formData.append("password", values.password);
     try {
+      const formData = new FormData();
+      formData.append("email", values.email);
+      formData.append("password", values.password);
       const response = await loginUser(formData);
       if (!response?.success) {
         toast.error(response?.message);

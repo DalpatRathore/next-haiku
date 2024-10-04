@@ -1,12 +1,13 @@
 import React from "react";
 import { Button } from "./ui/button";
-import { SquareArrowOutUpRightIcon } from "lucide-react";
+import { ImagePlusIcon, SquareArrowOutUpRightIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 import UserAccount from "./UserAccount";
 import { getUser } from "@/actions/user/getUser";
 import LogoutUser from "./LogoutUser";
+import { DashboardIcon } from "@radix-ui/react-icons";
 
 const Header = async () => {
   const authUser = await getUser();
@@ -27,6 +28,26 @@ const Header = async () => {
             {authUser.user ? (
               <>
                 <UserAccount user={authUser.user}></UserAccount>
+                <Button
+                  variant={"outline"}
+                  size={"icon"}
+                  asChild
+                  title="Dashboard"
+                >
+                  <Link href={"/dashboard"}>
+                    <DashboardIcon></DashboardIcon>
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  size={"icon"}
+                  variant={"outline"}
+                  title="Create Haiku"
+                >
+                  <Link href={"/create-haiku"}>
+                    <ImagePlusIcon className="w-4 h-4"></ImagePlusIcon>
+                  </Link>
+                </Button>
                 <LogoutUser></LogoutUser>
               </>
             ) : (

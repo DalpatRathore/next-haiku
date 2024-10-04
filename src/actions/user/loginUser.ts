@@ -9,7 +9,6 @@ import { cookies } from "next/headers"; // To manage cookies
 const JWT_SECRET = process.env.JWT_SECRET!
 
 export const loginUser = async (formData: FormData) => {
-    console.log(formData); // Log the received formData
 
     try {
         const data = Object.fromEntries(formData.entries()); // Convert FormData to a plain object
@@ -17,7 +16,7 @@ export const loginUser = async (formData: FormData) => {
 
          // Check for validation errors
          if (!parsedData.success) {
-            console.log("Validation errors:", parsedData.error.format());
+            // console.log("Validation errors:", parsedData.error.format());
             return {
                 success: false,
                 message: "Validation errors occurred.",
