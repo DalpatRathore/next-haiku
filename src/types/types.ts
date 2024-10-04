@@ -31,7 +31,7 @@ const countSyllables = (line: string): number => {
 
 // Custom Zod refinement for syllable validation
 const haikuLine = (syllableCount: number) =>
-  z.string().min(1, { message: "Line cannot be empty." }).refine((line) => {
+  z.string().min(1, { message: "Please provide text." }).refine((line) => {
     return countSyllables(line) === syllableCount;
   }, { message: `Line must have exactly ${syllableCount} syllables.` });
 

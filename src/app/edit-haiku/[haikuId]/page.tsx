@@ -1,12 +1,12 @@
 import HaikuForm from "@/components/forms/HaikuForm";
 import React from "react";
 
-const CreateHaikuPage = () => {
+const EditHaikuIdPage = () => {
   return (
     <div className="h-full w-full flex items-center justify-center">
-      <HaikuForm formType="Create"></HaikuForm>
+      <HaikuForm formType="Update"></HaikuForm>
     </div>
   );
 };
 
-export default CreateHaikuPage;
+export default EditHaikuIdPage;
