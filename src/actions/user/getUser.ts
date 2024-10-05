@@ -2,7 +2,7 @@
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import UserModel from "@/models/user.model";
-import dbConnect from "@/config/db-connect";
+import dbConnect from "@/config/dbConnect";
 
 const JWT_SECRET = process.env.JWT_SECRET!
 

@@ -1,6 +1,6 @@
 "use server"; // This indicates that the function will run on the server side
 
-import dbConnect from "@/config/db-connect";
+import dbConnect from "@/config/dbConnect";
 import UserModel from "@/models/user.model"; // Import the User model
 import { loginFormSchema } from "@/types/types";
 import bcrypt from 'bcryptjs'; // For hashing passwords

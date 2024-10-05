@@ -1,5 +1,5 @@
 "use server";
-import dbConnect from "@/config/db-connect";
+import dbConnect from "@/config/dbConnect";
 import UserModel from "@/models/user.model";
 import { registerFormSchema } from "@/types/types";
 import bcrypt from 'bcryptjs';

@@ -3,7 +3,7 @@ import { haikuFormSchema } from "@/types/types"; // Your schema for validation
 import { cookies } from "next/headers"; 
 import jwt from "jsonwebtoken"; 
 import HaikuModel from "@/models/haiku.model"; 
-import dbConnect from "@/config/db-connect"; 
+import dbConnect from "@/config/dbConnect"; 
 import { verifySignature } from "@/lib/verifySignature";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
