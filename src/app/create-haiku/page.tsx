@@ -4,7 +4,7 @@ import React from "react";
 
 const CreateHaikuPage = () => {
   return (
-    <div className="h-full w-full flex flex-col-reverse md:flex-row items-center justify-evenly py-8 px-5 gap-5">
+    <div className="h-full w-full flex flex-col-reverse md:flex-row items-center justify-evenly py-6 px-5 gap-5">
       <div className="flex items-center justify-center w-full max-w-lg">
         <SpinnerSvg></SpinnerSvg>
       </div>
