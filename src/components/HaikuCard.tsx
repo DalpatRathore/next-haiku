@@ -1,12 +1,13 @@
 "use client";
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
-import { EditIcon, Loader2Icon, Trash2Icon } from "lucide-react";
+import { EditIcon, Trash2Icon } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { deleteHaiku } from "@/actions/haikus/deleteHaiku";
 import toast from "react-hot-toast";
 import { CldImage } from "next-cloudinary";
+import SpinnerSvg from "./SpinnerSvg";
 
 // Type for Haiku (Replace ObjectId with string for client-side compatibility)
 export type Haiku = {
@@ -146,7 +147,7 @@ const Card = React.memo(
           />
 
           <div className="flex-1 flex items-center justify-center w-full">
-            <Loader2Icon className="animate-spin"></Loader2Icon>
+            <SpinnerSvg></SpinnerSvg>
           </div>
           <div className="w-full flex items-center justify-end gap-2 z-50">
             <Button asChild size={"icon"} variant={"default"}>
