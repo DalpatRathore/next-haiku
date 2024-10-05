@@ -1,13 +1,16 @@
-
 "use server";
 import { haikuFormSchema } from "@/types/types";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import HaikuModel from "@/models/haiku.model"; // Import your Haiku model
+import dbConnect from "@/config/db-connect";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
-export const updateHaiku= async(formData:FormData, id:string)=>{
+export const updateHaiku = async (formData: FormData, id: string) => {
     try {
+
+        await dbConnect();
+        
         const cookieStore = cookies();
         const token = cookieStore.get("mynexthaiku")?.value;
 
@@ -43,12 +46,22 @@ export const updateHaiku= async(formData:FormData, id:string)=>{
             };
         }
 
-        const updateData = parsedData.data;   
+        const updateData = parsedData.data;
+     
+        // Update the haiku in the database ensuring the user owns the haiku
+        const updatedHaiku = await HaikuModel.findOneAndUpdate(
+            { _id: id, user: decodedToken.userId }, // Check both _id and userId
+            updateData,
+            { new: true }
+        );
 
-        // Update the haiku to the database
-        await HaikuModel.findOneAndUpdate({_id:id},updateData, {
-            new: true
-          });
+        if (!updatedHaiku) {
+            return {
+                success: false,
+                message: "Haiku not found or you're not authorized to update it.",
+            };
+        }
+
         return {
             success: true,
             message: "Haiku updated successfully.",
@@ -61,5 +74,4 @@ export const updateHaiku= async(formData:FormData, id:string)=>{
             error: error instanceof Error ? error.message : "Unknown error",
         };
     }
-
-}
+};

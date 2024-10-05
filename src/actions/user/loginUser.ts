@@ -1,5 +1,6 @@
 "use server"; // This indicates that the function will run on the server side
 
+import dbConnect from "@/config/db-connect";
 import UserModel from "@/models/user.model"; // Import the User model
 import { loginFormSchema } from "@/types/types";
 import bcrypt from 'bcryptjs'; // For hashing passwords
@@ -11,6 +12,7 @@ const JWT_SECRET = process.env.JWT_SECRET!
 export const loginUser = async (formData: FormData) => {
 
     try {
+        
         const data = Object.fromEntries(formData.entries()); // Convert FormData to a plain object
         const parsedData = loginFormSchema.safeParse(data);
 
@@ -23,7 +25,7 @@ export const loginUser = async (formData: FormData) => {
                 errors: parsedData.error.format(),
             };
         }
-
+        await dbConnect();
         const { email, password } = parsedData.data;
 
         // Find the user by email

@@ -1,4 +1,5 @@
 "use server";
+import dbConnect from "@/config/db-connect";
 import UserModel from "@/models/user.model";
 import { registerFormSchema } from "@/types/types";
 import bcrypt from 'bcryptjs';
@@ -21,6 +22,7 @@ export const registerUser = async (formData: FormData) => {
                 errors: parsedData.error.format(),
             };
         }
+        await dbConnect();
 
         const { name, email, password } = parsedData.data;
 

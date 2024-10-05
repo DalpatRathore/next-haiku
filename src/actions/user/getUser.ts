@@ -2,11 +2,14 @@
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import UserModel from "@/models/user.model";
+import dbConnect from "@/config/db-connect";
 
 const JWT_SECRET = process.env.JWT_SECRET!
 
 export const getUser = async () => {
     try {
+        await dbConnect();
+
         const cookieStore = cookies();
         const token = cookieStore.get("mynexthaiku")?.value;
 

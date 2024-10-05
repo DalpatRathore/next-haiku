@@ -3,11 +3,14 @@ import { haikuFormSchema } from "@/types/types";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import HaikuModel from "@/models/haiku.model"; // Import your Haiku model
+import dbConnect from "@/config/db-connect";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
 export const createHaiku = async (formData: FormData) => {
     try {
+        await dbConnect();
+
         const cookieStore = cookies();
         const token = cookieStore.get("mynexthaiku")?.value;
 
