@@ -10,7 +10,6 @@ cloudinary.config({
 });
 
 export async function POST(request: Request) {
-console.log(process.env.CLOUDINARY_API_SECRET)
 
   const user = await getUser(); 
   if (!user) {

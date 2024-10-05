@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import jwt from "jsonwebtoken"; 
 import HaikuModel from "@/models/haiku.model"; 
 import dbConnect from "@/config/db-connect"; 
+import { verifySignature } from "@/lib/verifySignature";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
@@ -45,7 +46,21 @@ export const updateHaiku = async (formData: FormData, id: string) => {
             };
         }
 
-        const updateData = parsedData.data;
+        const { signature, publicId, version } = parsedData.data;
+        let photoId = ""; // Default value for photoId
+
+        // Verify the signature only if all parameters are present
+        if (signature && publicId && version) {
+            const result = await verifySignature(version, signature, publicId);
+            if (result) {
+                photoId = publicId; // Use publicId if verification is successful
+            }
+        }
+           // Prepare update data, including photoId if verified
+        const updateData = {
+            ...parsedData.data,
+            photoId, // Include photoId in the update
+        };
 
         // Connect to the database after token validation
         await dbConnect();
