@@ -1,4 +1,3 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,6 +22,7 @@ import {
   LogOutIcon,
   Settings2Icon,
 } from "lucide-react";
+import { Button } from "./ui/button";
 
 type UserAccountProps = {
   user: {
@@ -34,10 +34,9 @@ const UserAccount = ({ user: { name, email } }: UserAccountProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
+        <Button variant="outline" size={"icon"}>
+          <span className="uppercase">{name.slice(0, 1)}</span>
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-60">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>

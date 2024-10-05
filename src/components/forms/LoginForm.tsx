@@ -1,5 +1,5 @@
 "use client";
-
+import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -28,6 +28,7 @@ import { loginFormSchema } from "@/types/types";
 import { loginUser } from "@/actions/user/loginUser";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { Loader2Icon } from "lucide-react";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -38,6 +39,7 @@ const LoginForm = () => {
       password: "",
     },
   });
+  const { isSubmitting } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof loginFormSchema>) => {
     try {
@@ -95,8 +97,15 @@ const LoginForm = () => {
               )}
             />
 
-            <Button type="submit" className="w-full">
-              Login
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  Login...
+                  <Loader2Icon className="w-4 h-4 ml-2 animate-spin" />
+                </>
+              ) : (
+                " Login"
+              )}
             </Button>
           </form>
         </Form>

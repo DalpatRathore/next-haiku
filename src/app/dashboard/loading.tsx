@@ -11,7 +11,7 @@ const Loading = () => {
           </h1>
         </div>
       </div>
-      <div className="flex flex-col md:flex-row items-center justify-center gap-5 lg:gap-10 py-8">
+      <div className="flex flex-col md:flex-row items-center justify-center gap-5 lg:gap-8 py-8">
         <Skeleton className="h-96 w-full rounded-xl" />
         <Skeleton className="h-96 w-full rounded-xl" />
       </div>

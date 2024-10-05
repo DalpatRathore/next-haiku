@@ -7,8 +7,6 @@ interface IUser extends Document {
   email: string;
   password: string;
   isVerified:boolean;
-  profilePicture:string;
-  gender: "male" |"female"
 }
 
 // Create the User Schema
@@ -28,19 +26,6 @@ const userSchema: Schema<IUser> = new Schema({
     type: String,
     required: true,
     minlength: 6,
-  },
-  profilePicture: {
-    type: String,
-    default: "",
-   
-  },
-  gender: {
-    type: String,
-    enum: {
-      values: ["male", "female"],
-      message: "Gender must be either 'male' or 'female'"
-    },
-    required: [true, "Gender is required"]
   },
   isVerified: {
     type: Boolean,

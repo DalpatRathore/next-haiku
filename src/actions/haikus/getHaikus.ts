@@ -8,7 +8,6 @@ const JWT_SECRET = process.env.JWT_SECRET!;
 
 export const getHaikus = async () => {
     try {
-        
         const cookieStore = cookies(); 
         const token = cookieStore.get("mynexthaiku")?.value; // Retrieve the JWT token
 
@@ -30,10 +29,12 @@ export const getHaikus = async () => {
                 message: "Invalid token.", // Token is invalid or userId is missing
             };
         }
-        
-         // Fetch haikus associated with the userId from the decoded token using lean
-         const haikus = await HaikuModel.find({ user: decodedToken.userId }).lean();
 
+
+        // Fetch haikus associated with the userId from the decoded token and sort by createdAt in descending order
+        const haikus = await HaikuModel.find({ user: decodedToken.userId })
+            .sort({ createdAt: -1 }) // Sort by createdAt in descending order
+            .lean();
 
         // Return success with the list of haikus
         return {
