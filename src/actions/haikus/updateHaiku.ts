@@ -47,8 +47,18 @@ export const updateHaiku = async (formData: FormData, id: string) => {
         }
 
         const { signature, publicId, version } = parsedData.data;
-        let photoId = ""; // Default value for photoId
+       
+        // Fetch the existing haiku to get the current photoId
+        const existingHaiku = await HaikuModel.findOne({ _id: id, user: decodedToken.userId });
+        if (!existingHaiku) {
+            return {
+                success: false,
+                message: "Haiku not found or user not authorized.",
+            };
+        }
 
+        let photoId = existingHaiku.photoId; // Use the existing photoId as the default
+    
         // Verify the signature only if all parameters are present
         if (signature && publicId && version) {
             const result = await verifySignature(version, signature, publicId);
