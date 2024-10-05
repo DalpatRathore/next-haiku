@@ -1,5 +1,6 @@
 import { getHaikus } from "@/actions/haikus/getHaikus";
 import HaikuCard, { Haiku } from "@/components/HaikuCard";
+import SpinnerSvg from "@/components/SpinnerSvg";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
@@ -34,10 +35,13 @@ const DashboardPage = async () => {
         </div>
       </div>
       {haikus.length === 0 ? (
-        <div className="w-full bg-[#fca311] font-sans min-h-[350px] relative max-w-5xl mx-auto rounded overflow-hidden">
-          <div className="flex h-full flex-col items-end justify-center text-right px-8 relative bg-[#262464] rounded-tl-[206px] z-20 before:absolute before:inset-0 before:!left-auto before:bg-[#1d2a7b] before:w-2/3 before:rounded-bl-[206px] before:-z-10">
-            <div className="max-w-lg text-center md:text-left">
-              <h3 className="font-bold sm:text-4xl text-2xl text-[#fca311]">
+        <div className="w-full bg-[#fca311] font-sans min-h-[25rem] relative max-w-5xl px-5 mx-auto rounded overflow-hidden">
+          <div className="flex flex-col md:flex-row h-full items-center justify-center text-right px-8 relative bg-[#262464] rounded-tl-[206px] z-20 before:absolute before:inset-0 before:!left-auto before:bg-[#1d2a7b] before:w-2/3 before:rounded-bl-[206px] before:-z-10">
+            <div className="flex items-center justify-center">
+              <SpinnerSvg></SpinnerSvg>
+            </div>
+            <div className="max-w-lg text-center md:text-left py-5">
+              <h3 className="font-bold sm:text-3xl text-2xl text-[#fca311]">
                 Unlock Your Poetry Potential
               </h3>
               <p className="text-base text-gray-300 mt-4">
@@ -45,11 +49,11 @@ const DashboardPage = async () => {
                 lines, with five syllables in the first line, seven in the
                 second, and five in the third
               </p>
-            </div>
-            <div className="mt-10">
-              <Button type="button" size={"lg"} variant={"outline"} asChild>
-                <Link href={"/create-haiku"}>Create Haiku</Link>
-              </Button>
+              <div className="mt-10">
+                <Button type="button" size={"lg"} variant={"outline"} asChild>
+                  <Link href={"/create-haiku"}>Create Haiku</Link>
+                </Button>
+              </div>
             </div>
           </div>
         </div>

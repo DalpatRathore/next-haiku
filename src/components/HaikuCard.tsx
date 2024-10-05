@@ -90,13 +90,13 @@ const Card = React.memo(
         onMouseEnter={() => setHovered(index)}
         onMouseLeave={() => setHovered(null)}
         className={cn(
-          "rounded-lg relative bg-gray-100 dark:bg-neutral-900 overflow-hidden h-80 sm:h-96 w-full max-w-xl mx-auto transition-all duration-300 ease-out",
+          "rounded-lg relative bg-gray-100 dark:bg-neutral-900 overflow-hidden h-[25rem] w-full max-w-xl mx-auto transition-all duration-300 ease-out",
           hovered !== null && hovered !== index && "blur-sm scale-[0.98]"
         )}
       >
         <div
           className={cn(
-            "absolute inset-0 bg-black/50 py-8 px-4 transition-opacity duration-300 flex flex-col items-start justify-center gap-10",
+            "absolute inset-0 bg-black/50 py-4 px-4 transition-opacity duration-300 flex flex-col items-start justify-center gap-5",
             hovered === index ? "opacity-100" : "opacity-80"
           )}
         >
@@ -146,7 +146,7 @@ const Card = React.memo(
             alt="haiku"
           />
 
-          <div className="flex-1 flex items-center justify-center w-full">
+          <div className="flex items-center justify-center w-full">
             <SpinnerSvg></SpinnerSvg>
           </div>
           <div className="w-full flex items-center justify-end gap-2 z-50">
