@@ -5,6 +5,7 @@ interface IHaiku extends Document {
     line1: string;
     line2: string;
     line3: string;
+    photoId?:string;
     user: mongoose.Schema.Types.ObjectId; // Add user reference
 }
 
@@ -21,6 +22,10 @@ const haikuSchema: Schema<IHaiku> = new Schema({
     line3: {
         type: String,
         required: true
+    },
+    photoId:{
+        type: String,
+        default: ""
     },
     user: {
         type: mongoose.Schema.Types.ObjectId, // Reference to the User model

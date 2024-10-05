@@ -39,5 +39,9 @@ export const haikuFormSchema = z.object({
   line1: haikuLine(5), // First line must have 5 syllables
   line2: haikuLine(7), // Second line must have 7 syllables
   line3: haikuLine(5), // Third line must have 5 syllables
+  version:z.string().optional(),
+  signature:z.string().optional(),
+  publicId:z.string().optional(),
+
 });
 

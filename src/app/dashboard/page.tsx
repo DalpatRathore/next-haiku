@@ -19,6 +19,7 @@ const DashboardPage = async () => {
           line1: haiku.line1,
           line2: haiku.line2,
           line3: haiku.line3,
+          photoId: haiku.photoId,
           createdAt: new Date(haiku.createdAt),
           updatedAt: new Date(haiku.updatedAt),
         }))

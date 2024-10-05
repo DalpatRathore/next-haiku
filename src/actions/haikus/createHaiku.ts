@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import HaikuModel from "@/models/haiku.model"; // Import your Haiku model
 import dbConnect from "@/config/db-connect";
+import { verifySignature } from "@/lib/verifySignature";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
@@ -45,14 +46,23 @@ export const createHaiku = async (formData: FormData) => {
                 errors: parsedData.error.errors, // Provide validation error details
             };
         }
+
+
+        const { line1, line2, line3, signature, publicId,version } = parsedData.data;
+
+        let result;
+        if(signature && publicId && version){
+             result = await verifySignature(version, signature, publicId)
+        }
+
         await dbConnect();
-        const { line1, line2, line3 } = parsedData.data;
 
         // Create a new Haiku document with the user reference
         const newHaiku = new HaikuModel({
             line1,
             line2,
             line3,
+            photoId: result ? publicId :"",
             user: decodedToken.userId, // Reference the user ID from the token
         });
 

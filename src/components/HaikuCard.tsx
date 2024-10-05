@@ -1,12 +1,12 @@
 "use client";
-import Image from "next/image";
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
-import { EditIcon, Trash2Icon } from "lucide-react";
+import { EditIcon, Loader2Icon, Trash2Icon } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { deleteHaiku } from "@/actions/haikus/deleteHaiku";
 import toast from "react-hot-toast";
+import { CldImage } from "next-cloudinary";
 
 // Type for Haiku (Replace ObjectId with string for client-side compatibility)
 export type Haiku = {
@@ -14,6 +14,7 @@ export type Haiku = {
   line1: string;
   line2: string;
   line3: string;
+  photoId: string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -92,25 +93,62 @@ const Card = React.memo(
           hovered !== null && hovered !== index && "blur-sm scale-[0.98]"
         )}
       >
-        <Image
-          src="/aspect-ratio.png"
-          alt=""
-          fill
-          className="object-cover absolute inset-0"
-        />
         <div
           className={cn(
             "absolute inset-0 bg-black/50 py-8 px-4 transition-opacity duration-300 flex flex-col items-start justify-center gap-10",
             hovered === index ? "opacity-100" : "opacity-80"
           )}
         >
-          <div className="text-lg md:text-xl lg:text-2xl font-medium bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-200 -rotate-12 flex-1 flex flex-col items-start justify-center">
-            <p className="font-bold text-xl md:text-2xl">{card.line1}</p>
-            <p className="font-bold text-xl md:text-2xl">{card.line2}</p>
-            <p className="font-bold text-xl md:text-2xl">{card.line3}</p>
+          <CldImage
+            className="absolute inset-0 z-10"
+            fillBackground
+            overlays={[
+              {
+                position: {
+                  x: 50,
+                  y: 450,
+                  angle: -12,
+                  gravity: "north_west",
+                },
+                text: {
+                  color: "black",
+                  fontFamily: "Source sans Pro",
+                  fontSize: 72,
+                  fontWeight: "bold",
+                  text: `${card.line1}%0A${card.line2}%0a${card.line3}`,
+                },
+              },
+              {
+                position: {
+                  x: 50,
+                  y: 450,
+                  angle: -12,
+                  gravity: "north_west",
+                },
+                text: {
+                  color: "white",
+                  fontFamily: "Source sans Pro",
+                  fontSize: 72,
+                  fontWeight: "bold",
+                  text: `${card.line1}%0A${card.line2}%0a${card.line3}`,
+                },
+              },
+            ]}
+            crop={{
+              type: "pad",
+              source: true,
+            }}
+            width="1000"
+            height="750"
+            src={card.photoId ? card.photoId : "fallback"}
+            sizes="100vw"
+            alt="haiku"
+          />
+
+          <div className="flex-1 flex items-center justify-center w-full">
+            <Loader2Icon className="animate-spin"></Loader2Icon>
           </div>
-          <div className=""></div>
-          <div className="w-full flex items-center justify-end gap-2">
+          <div className="w-full flex items-center justify-end gap-2 z-50">
             <Button asChild size={"icon"} variant={"default"}>
               <Link href={`/edit-haiku/${card._id}`}>
                 <EditIcon className="w-4 h-4"></EditIcon>
