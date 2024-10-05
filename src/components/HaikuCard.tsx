@@ -6,6 +6,7 @@ import { EditIcon, Trash2Icon } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { deleteHaiku } from "@/actions/haikus/deleteHaiku";
+import toast from "react-hot-toast";
 
 // Type for Haiku (Replace ObjectId with string for client-side compatibility)
 export type Haiku = {
@@ -24,15 +25,42 @@ type HaikuCardProps = {
 const HaikuCard = ({ haikus }: HaikuCardProps) => {
   const [hovered, setHovered] = useState<number | null>(null);
 
+  const [haikuList, setHaikuList] = useState<Haiku[]>(haikus);
+
+  const handleDelete = async (haikuId: string) => {
+    const haikuToDelete = haikuList.find(haiku => haiku._id === haikuId); // Find the haiku to delete
+
+    if (!haikuToDelete) return; // If haiku doesn't exist, do nothing
+
+    // Optimistically update the UI
+    setHaikuList(prev => prev.filter(haiku => haiku._id !== haikuId));
+
+    try {
+      const success = await deleteHaiku(haikuId); // Call the API to delete the haiku
+      if (success) {
+        toast.success("Haiku deleted successfully!");
+      } else {
+        // Revert optimistic update
+        setHaikuList(prev => [...prev, haikuToDelete]); // Add back the full haiku object
+        toast.error("Failed to delete haiku.");
+      }
+    } catch (error) {
+      console.error("Failed to delete haiku:", error);
+      setHaikuList(prev => [...prev, haikuToDelete]); // Add back the full haiku object
+      toast.error("Failed to delete haiku.");
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-8 max-w-7xl mx-auto px-8 w-full">
-      {haikus.map((haiku, index) => (
+      {haikuList.map((haiku, index) => (
         <Card
           key={haiku._id}
           card={haiku}
           index={index}
           hovered={hovered}
           setHovered={setHovered}
+          onDelete={handleDelete}
         />
       ))}
     </div>
@@ -47,15 +75,14 @@ const Card = React.memo(
     index,
     hovered,
     setHovered,
+    onDelete,
   }: {
     card: Haiku;
     index: number;
     hovered: number | null;
     setHovered: React.Dispatch<React.SetStateAction<number | null>>;
+    onDelete: (haikuId: string) => void;
   }) => {
-    const handleDelete = async (haikuId: string) => {
-      await deleteHaiku(haikuId);
-    };
     return (
       <div
         onMouseEnter={() => setHovered(index)}
@@ -92,7 +119,7 @@ const Card = React.memo(
             <Button
               size={"icon"}
               variant={"destructive"}
-              onClick={() => handleDelete(card._id)}
+              onClick={() => onDelete(card._id)}
             >
               <Trash2Icon className="w-4 h-4"></Trash2Icon>
             </Button>
