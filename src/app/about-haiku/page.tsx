@@ -10,7 +10,7 @@ import {
 
 const AboutHaikuPage = () => {
   return (
-    <div className="h-full w-full flex items-center justify-center py-8">
+    <div className="h-full w-full flex items-center justify-center py-8 px-5">
       <BentoGrid className="max-w-4xl mx-auto">
         {items.map((item, i) => (
           <BentoGridItem

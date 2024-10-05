@@ -33,6 +33,7 @@ const Header = async () => {
                   size={"icon"}
                   asChild
                   title="Dashboard"
+                  className="flex md:hidden"
                 >
                   <Link href={"/dashboard"}>
                     <DashboardIcon></DashboardIcon>
@@ -43,6 +44,7 @@ const Header = async () => {
                   size={"icon"}
                   variant={"outline"}
                   title="Create Haiku"
+                  className="flex md:hidden"
                 >
                   <Link href={"/create-haiku"}>
                     <ImagePlusIcon className="w-4 h-4"></ImagePlusIcon>

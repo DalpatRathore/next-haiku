@@ -34,8 +34,8 @@ const UserAccount = ({ user: { name, email } }: UserAccountProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size={"icon"}>
-          <span className="uppercase">{name.slice(0, 1)}</span>
+        <Button variant="outline" size={"icon"} className="bg-[#fca311]">
+          <span className="uppercase text-xl">{name.slice(0, 1)}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-60">
