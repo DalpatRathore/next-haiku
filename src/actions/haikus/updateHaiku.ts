@@ -1,16 +1,15 @@
 "use server";
-import { haikuFormSchema } from "@/types/types";
-import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
-import HaikuModel from "@/models/haiku.model"; // Import your Haiku model
-import dbConnect from "@/config/db-connect";
+import { haikuFormSchema } from "@/types/types"; // Your schema for validation
+import { cookies } from "next/headers"; 
+import jwt from "jsonwebtoken"; 
+import HaikuModel from "@/models/haiku.model"; 
+import dbConnect from "@/config/db-connect"; 
 
 const JWT_SECRET = process.env.JWT_SECRET!;
+
 export const updateHaiku = async (formData: FormData, id: string) => {
     try {
-
-        await dbConnect();
-        
+        // Retrieve cookies
         const cookieStore = cookies();
         const token = cookieStore.get("mynexthaiku")?.value;
 
@@ -22,10 +21,10 @@ export const updateHaiku = async (formData: FormData, id: string) => {
             };
         }
 
-        // Verify the token
+        // Verify the JWT token and decode it
         const decodedToken = jwt.verify(token, JWT_SECRET);
 
-        // Check the decoded token type and userId presence
+        // Validate the decoded token
         if (typeof decodedToken === "string" || !decodedToken.userId) {
             return {
                 success: false,
@@ -42,19 +41,23 @@ export const updateHaiku = async (formData: FormData, id: string) => {
             return {
                 success: false,
                 message: "Validation errors occurred.",
-                errors: parsedData.error.errors, // Provide validation error details
+                errors: parsedData.error.errors,
             };
         }
 
         const updateData = parsedData.data;
-     
+
+        // Connect to the database after token validation
+        await dbConnect();
+
         // Update the haiku in the database ensuring the user owns the haiku
         const updatedHaiku = await HaikuModel.findOneAndUpdate(
-            { _id: id, user: decodedToken.userId }, // Check both _id and userId
+            { _id: id, user: decodedToken.userId },
             updateData,
             { new: true }
         );
 
+        // Check if the haiku was found and updated
         if (!updatedHaiku) {
             return {
                 success: false,

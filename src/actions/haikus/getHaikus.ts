@@ -3,13 +3,12 @@
 import { cookies } from "next/headers"; 
 import jwt from "jsonwebtoken"; 
 import HaikuModel from "@/models/haiku.model"; 
-import dbConnect from "@/config/db-connect";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
 export const getHaikus = async () => {
     try {
-        await dbConnect();
+        
         const cookieStore = cookies(); 
         const token = cookieStore.get("mynexthaiku")?.value; // Retrieve the JWT token
 
@@ -31,7 +30,7 @@ export const getHaikus = async () => {
                 message: "Invalid token.", // Token is invalid or userId is missing
             };
         }
-
+        
          // Fetch haikus associated with the userId from the decoded token using lean
          const haikus = await HaikuModel.find({ user: decodedToken.userId }).lean();
 

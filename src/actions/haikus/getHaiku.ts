@@ -3,22 +3,20 @@
 import { cookies } from "next/headers"; 
 import jwt from "jsonwebtoken"; 
 import HaikuModel from "@/models/haiku.model"; 
-import dbConnect from "@/config/db-connect";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
-export const getHaiku = async (haikuId:string) => {
+export const getHaiku = async (haikuId: string) => {
     try {
-        await dbConnect();
 
         const cookieStore = cookies(); 
-        const token = cookieStore.get("mynexthaiku")?.value; // Retrieve the JWT token
+        const token = cookieStore.get("mynexthaiku")?.value;
 
         // Check if the token exists
         if (!token) {
             return {
                 success: false,
-                message: "User is not authenticated.", // User is not logged in
+                message: "User is not authenticated.",
             };
         }
 
@@ -29,26 +27,30 @@ export const getHaiku = async (haikuId:string) => {
         if (typeof decodedToken === "string" || !decodedToken.userId) {
             return {
                 success: false,
-                message: "Invalid token.", // Token is invalid or userId is missing
+                message: "Invalid token.",
             };
         }
 
-         // Fetch haiku associated with the userId from the decoded token using lean
-         const haiku = await HaikuModel.findById({_id:haikuId, user: decodedToken.userId }).lean();
+        // Fetch haiku associated with the haikuId and userId
+        const haiku = await HaikuModel.findOne({ _id: haikuId, user: decodedToken.userId }).lean();
 
+        if (!haiku) {
+            return {
+                success: false,
+                message: "Haiku not found or you don't have permission to view it.",
+            };
+        }
 
-        // Return success with the list of haiku
         return {
             success: true,
             message: "Haiku fetched successfully.",
-            haiku, // Return the haiku retrieved from the database
+            haiku,
         };
     } catch (error) {
-        // Log the error for debugging purposes
         console.error("Error fetching haiku:", error);
         return {
             success: false,
-            message: "An unexpected error occurred while fetching haiku.", // Return an error message
+            message: "An unexpected error occurred while fetching haiku.",
         };
     }
 };

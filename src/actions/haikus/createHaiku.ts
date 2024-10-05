@@ -9,7 +9,7 @@ const JWT_SECRET = process.env.JWT_SECRET!;
 
 export const createHaiku = async (formData: FormData) => {
     try {
-        await dbConnect();
+        
 
         const cookieStore = cookies();
         const token = cookieStore.get("mynexthaiku")?.value;
@@ -45,7 +45,7 @@ export const createHaiku = async (formData: FormData) => {
                 errors: parsedData.error.errors, // Provide validation error details
             };
         }
-
+        await dbConnect();
         const { line1, line2, line3 } = parsedData.data;
 
         // Create a new Haiku document with the user reference
