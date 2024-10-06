@@ -23,7 +23,6 @@ import {
 } from "@/components/ui/tooltip";
 import { DashboardIcon } from "@radix-ui/react-icons";
 import { HomeIcon, ImageIcon } from "lucide-react";
-import Image from "next/image";
 
 const MobileAsideMenu = () => {
   return (

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import {syllable} from "syllable";
 
 export const registerFormSchema = z.object({
     name: z.string().min(3, {
@@ -44,12 +45,9 @@ export const registerFormSchema = z.object({
   
    
 
-  // Utility function to count syllables
+ // Utility function to count syllables using the 'syllable' package
 const countSyllables = (line: string): number => {
-  // A simple heuristic method to count syllables. There are more advanced ways.
-  return line
-    .toLowerCase()
-    .match(/[aeiouy]+[^$e(,.:;]/g)?.length || 0; 
+  return syllable(line);
 };
 
 // Custom Zod refinement for syllable validation
@@ -62,9 +60,8 @@ export const haikuFormSchema = z.object({
   line1: haikuLine(5), // First line must have 5 syllables
   line2: haikuLine(7), // Second line must have 7 syllables
   line3: haikuLine(5), // Third line must have 5 syllables
-  version:z.string().optional(),
-  signature:z.string().optional(),
-  publicId:z.string().optional(),
-
+  version: z.string().optional(),
+  signature: z.string().optional(),
+  publicId: z.string().optional(),
 });
 
