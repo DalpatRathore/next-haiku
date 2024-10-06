@@ -1,4 +1,3 @@
-import { getUsernameFromEmail } from "@/lib/getUsernameFromEmail";
 import {
   Body,
   Button,
@@ -16,19 +15,17 @@ import * as React from "react";
 
 interface VerificationEmailProps {
   name: string;
-  email: string;
   verificationCode: string;
+  userId: string;
 }
 
 const baseUrl = process.env.APP_BASE_URL ? `${process.env.APP_BASE_URL}` : "";
 
 const VerificationEmail = ({
   name,
-  email,
   verificationCode,
+  userId,
 }: VerificationEmailProps) => {
-  const username = getUsernameFromEmail(email);
-  console.log(username);
   return (
     <Html>
       <Head />
@@ -46,14 +43,16 @@ const VerificationEmail = ({
             />
           </Section>
           <Heading style={codeTitle}>Hi, {name}</Heading>
-          <Heading style={codeTitle}>Your Verification Code</Heading>
+          <Heading as="h2" style={codeTitle}>
+            Your Verification Code
+          </Heading>
 
           <Section style={codeContainer}>
             <Heading style={codeStyle}>{verificationCode}</Heading>
-            <Text style={paragraph}>(This code is valid for 1 hour)</Text>
           </Section>
+          <Text style={paragraph}>(This code is valid for only 1 hour)</Text>
           <Section style={buttonContainer}>
-            <Button href={`${baseUrl}/verify/${username}`} style={button}>
+            <Button href={`${baseUrl}/verify/${userId}`} style={button}>
               Verify Email
             </Button>
           </Section>
@@ -88,7 +87,7 @@ const container = {
   width: "480px",
   maxWidth: "100%",
   margin: "0 auto",
-  padding: "12% 6%",
+  padding: "4% 4%",
 };
 
 const codeTitle = {

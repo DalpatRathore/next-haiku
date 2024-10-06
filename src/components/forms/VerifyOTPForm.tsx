@@ -27,6 +27,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { verifyEmailCode } from "@/actions/user/verifyEmailCode";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
@@ -34,7 +37,13 @@ const FormSchema = z.object({
   }),
 });
 
-const VerifyOTPForm = () => {
+type VerifyOTPFormProps = {
+  userId: string;
+};
+
+const VerifyOTPForm = ({ userId }: VerifyOTPFormProps) => {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -44,15 +53,26 @@ const VerifyOTPForm = () => {
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     console.log(values);
+    try {
+      const response = await verifyEmailCode(userId, values.pin);
+      if (response.success) {
+        toast.success(response.message);
+        form.reset();
+        router.replace("/dashboard");
+      } else {
+        toast.error(response.message);
+      }
+    } catch (error) {
+      console.error("Error during OTP submission:", error);
+      toast.error("An unexpected error occurred. Please try again.");
+    }
   };
 
   return (
     <Card className="p-10 mx-5">
       <CardHeader className="text-center">
         <CardTitle>Verification Code</CardTitle>
-        <CardDescription>
-          Verfification code valid for only for about an hour
-        </CardDescription>
+        <CardDescription>code valid for only 1 hour</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>

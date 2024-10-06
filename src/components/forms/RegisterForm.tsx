@@ -55,15 +55,16 @@ const RegisterForm = () => {
       if (!response?.success) {
         toast.error(response?.message);
       } else {
-        toast.success("User registered successfully!");
+        toast.success(response?.message);
         form.reset();
-        router.replace("/dashboard");
+        router.push(`/verify/${response.userId}`);
       }
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong!");
     }
   };
+
   return (
     <Card className="w-full mx-auto max-w-lg">
       <CardHeader>

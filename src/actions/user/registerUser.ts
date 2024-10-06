@@ -1,9 +1,11 @@
 "use server";
 import dbConnect from "@/config/dbConnect";
+
 import { sendVerificationEmail } from "@/lib/sendVerificationEmail";
 import UserModel from "@/models/user.model";
 import { registerFormSchema } from "@/types/types";
 import bcrypt from 'bcryptjs';
+
 
 export const registerUser = async (formData: FormData) => {
     try {
@@ -52,11 +54,15 @@ export const registerUser = async (formData: FormData) => {
             verifyCodeExpiry: expiryDate,
             isVerified: false,
         });
+ 
 
         await newUser.save();
 
+        // Convert user ID to string
+        const userId = String(newUser._id);
+
         // Send verification email
-        const emailResponse = await sendVerificationEmail(email, name, verifyCode);
+        const emailResponse = await sendVerificationEmail( name, email,verifyCode,userId);
 
         // Check if email sending was successful
         if (!emailResponse.success) {
@@ -65,11 +71,15 @@ export const registerUser = async (formData: FormData) => {
                 message: emailResponse.message,
             };
         }
-
-        return {
+         // Return success with user ID
+         return {
             success: true,
-            message: "User registration successful. Please verify your email.",
+            message: "Registration successful. Please verify email.",
+            userId
         };
+
+       
+
     } catch (error) {
         // Error handling with consistent structure
         console.error("Error registering user:", error);

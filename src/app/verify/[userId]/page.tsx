@@ -3,7 +3,7 @@ import SpinnerSvg from "@/components/SpinnerSvg";
 import { Separator } from "@/components/ui/separator";
 import React from "react";
 
-const VerifyEmailPage = () => {
+const VerifyEmailPage = ({ params }: { params: { userId: string } }) => {
   return (
     <div className="h-full w-full flex flex-col items-center justify-center py-6">
       <div className="mx-auto max-w-screen-xl px-4">
@@ -19,7 +19,7 @@ const VerifyEmailPage = () => {
           <SpinnerSvg></SpinnerSvg>
         </div>
         <div className="w-full">
-          <VerifyOTPForm></VerifyOTPForm>
+          <VerifyOTPForm userId={params.userId}></VerifyOTPForm>
         </div>
       </div>
     </div>
