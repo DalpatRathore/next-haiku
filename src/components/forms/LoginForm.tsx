@@ -49,6 +49,7 @@ const LoginForm = () => {
       const response = await loginUser(formData);
       if (!response?.success) {
         toast.error(response?.message);
+        router.push(`/verify/${response.userId}`);
       } else {
         toast.success("Login successfully!");
         form.reset();

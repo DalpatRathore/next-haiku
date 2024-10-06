@@ -1,30 +1,29 @@
-"use server"; // This indicates that the function will run on the server side
+"use server"; 
 
 import dbConnect from "@/config/dbConnect";
-import UserModel from "@/models/user.model"; // Import the User model
+import UserModel from "@/models/user.model";
 import { loginFormSchema } from "@/types/types";
-import bcrypt from 'bcryptjs'; // For hashing passwords
-import jwt from 'jsonwebtoken'; // For creating JWTs
-import { cookies } from "next/headers"; // To manage cookies
+import bcrypt from 'bcryptjs'; 
+import jwt from 'jsonwebtoken'; 
+import { cookies } from "next/headers"; 
 
-const JWT_SECRET = process.env.JWT_SECRET!
+const JWT_SECRET = process.env.JWT_SECRET!;
 
 export const loginUser = async (formData: FormData) => {
-
     try {
-        
-        const data = Object.fromEntries(formData.entries()); // Convert FormData to a plain object
+        // Convert FormData to a plain object
+        const data = Object.fromEntries(formData.entries()); 
         const parsedData = loginFormSchema.safeParse(data);
 
-         // Check for validation errors
-         if (!parsedData.success) {
-            // console.log("Validation errors:", parsedData.error.format());
+        // Check for validation errors
+        if (!parsedData.success) {
             return {
                 success: false,
                 message: "Validation errors occurred.",
                 errors: parsedData.error.format(),
             };
         }
+
         await dbConnect();
         const { email, password } = parsedData.data;
 
@@ -35,7 +34,16 @@ export const loginUser = async (formData: FormData) => {
         if (!user) {
             return {
                 success: false,
-                message: "User not found.",
+                message: "Email not found. Please register first",
+            };
+        }
+
+        // Check if the user is verified
+        if (!user.isVerified) {
+            return {
+                success: false,
+                message: "Please verify your email.",
+                userId: String(user._id)
             };
         }
 
@@ -75,7 +83,7 @@ export const loginUser = async (formData: FormData) => {
         console.error("Error logging in:", error);
         return {
             success: false,
-            message: "An unexpected error occurred during login.",
+            message: "Something went wrong.",
             error: error instanceof Error ? error.message : "Unknown error",
         };
     }

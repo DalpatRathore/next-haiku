@@ -85,7 +85,7 @@ export const registerUser = async (formData: FormData) => {
         console.error("Error registering user:", error);
         return {
             success: false,
-            message: "An unexpected error occurred during registration.",
+            message: "Unknown error occurred. Try again later.",
             error: error instanceof Error ? error.message : "Unknown error",
         };
     }

@@ -52,7 +52,6 @@ const VerifyOTPForm = ({ userId }: VerifyOTPFormProps) => {
   });
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
-    console.log(values);
     try {
       const response = await verifyEmailCode(userId, values.pin);
       if (response.success) {

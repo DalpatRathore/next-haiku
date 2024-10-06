@@ -35,7 +35,7 @@ export const verifyEmailCode = async (userId: string, code: string) => {
         if (currentTime > user.verifyCodeExpiry) {
             return {
                 success: false,
-                message: "Verification code has expired. Please request a new code.",
+                message: "Code has expired. Please request a new code.",
             };
         }
 
@@ -63,13 +63,13 @@ export const verifyEmailCode = async (userId: string, code: string) => {
 
         return {
             success: true,
-            message: "Email verified successfully. You are now logged in.",
+            message: "Email verified successfully",
         };
     } catch (error) {
         console.error("Error verifying email code:", error);
         return {
             success: false,
-            message: "An unexpected error occurred during verification.",
+            message: "Something went wrong!",
             error: error instanceof Error ? error.message : "Unknown error",
         };
     }
