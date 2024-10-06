@@ -54,7 +54,7 @@ const HaikuCard = ({ haikus }: HaikuCardProps) => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-8 max-w-7xl mx-auto px-8 w-full">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 max-w-7xl mx-auto px-5 lg:px-0 w-full">
       {haikuList.map((haiku, index) => (
         <Card
           key={haiku._id}
@@ -90,8 +90,9 @@ const Card = React.memo(
         onMouseEnter={() => setHovered(index)}
         onMouseLeave={() => setHovered(null)}
         className={cn(
-          "rounded-lg relative bg-gray-100 dark:bg-neutral-900 overflow-hidden h-[25rem] w-full max-w-xl mx-auto transition-all duration-300 ease-out",
-          hovered !== null && hovered !== index && "blur-sm scale-[0.98]"
+          "relative bg-gray-100 dark:bg-neutral-900 overflow-hidden transition-all duration-300 ease-out rounded-md",
+          hovered !== null && hovered !== index && "blur-sm scale-[0.98]",
+          "w-full h-auto aspect-[4/3] md:aspect-[4/3] lg:aspect-[4/3]" // Keep the aspect ratio
         )}
       >
         <div
@@ -149,7 +150,7 @@ const Card = React.memo(
           <div className="flex items-center justify-center w-full">
             <SpinnerSvg></SpinnerSvg>
           </div>
-          <div className="w-full flex items-center justify-end gap-2 z-50">
+          <div className="flex items-center justify-end gap-2 z-50 absolute bottom-5 right-5">
             <Button asChild size={"icon"} variant={"default"}>
               <Link href={`/edit-haiku/${card._id}`}>
                 <EditIcon className="w-4 h-4"></EditIcon>

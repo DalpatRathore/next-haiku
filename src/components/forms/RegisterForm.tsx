@@ -12,6 +12,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -128,13 +129,21 @@ const RegisterForm = () => {
             </Button>
           </form>
         </Form>
-        <div className="mt-4 text-center text-sm">
+        {/* <div className="mt-4 text-center text-sm">
           Already have an account?{" "}
           <Link href="/sign-in" className="underline">
             Sign in
           </Link>
-        </div>
+        </div> */}
       </CardContent>
+      <CardFooter className="flex items-center justify-center">
+        <p className="text-center text-sm">
+          Already have an account?
+          <Link href="/sign-in" className="underline ml-2">
+            Sign in
+          </Link>
+        </p>
+      </CardFooter>
     </Card>
   );
 };

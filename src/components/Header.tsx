@@ -1,6 +1,10 @@
 import React from "react";
 import { Button } from "./ui/button";
-import { ImagePlusIcon, SquareArrowOutUpRightIcon } from "lucide-react";
+import {
+  ImagePlusIcon,
+  LogInIcon,
+  SquareArrowOutUpRightIcon,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
@@ -11,7 +15,6 @@ import { DashboardIcon } from "@radix-ui/react-icons";
 
 const Header = async () => {
   const authUser = await getUser();
-
   return (
     <header className="border-b ">
       <div className="mx-auto max-w-screen-xl px-4 py-6">
@@ -53,18 +56,32 @@ const Header = async () => {
                 <LogoutUser></LogoutUser>
               </>
             ) : (
-              <Button
-                type="button"
-                variant={"outline"}
-                title="Login"
-                className="flex items-center gap-2"
-                asChild
-                size={"icon"}
-              >
-                <Link href={"/sign-in"}>
-                  <SquareArrowOutUpRightIcon className="w-4 h-4" />
-                </Link>
-              </Button>
+              <>
+                <Button
+                  type="button"
+                  variant={"outline"}
+                  title="sign-in"
+                  className="flex items-center gap-2"
+                  asChild
+                  size={"icon"}
+                >
+                  <Link href={"/sign-in"}>
+                    <LogInIcon className="w-4 h-4" />
+                  </Link>
+                </Button>
+                <Button
+                  type="button"
+                  variant={"outline"}
+                  title="sign-up"
+                  className="flex items-center gap-2"
+                  asChild
+                  size={"icon"}
+                >
+                  <Link href={"/sign-up"}>
+                    <SquareArrowOutUpRightIcon className="w-4 h-4" />
+                  </Link>
+                </Button>
+              </>
             )}
 
             <ThemeToggle></ThemeToggle>

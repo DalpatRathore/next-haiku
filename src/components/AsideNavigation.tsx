@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 
 const AsideNavigation = () => {
   return (
-    <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex my-24">
+    <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background md:flex pt-20">
       <nav className="flex flex-col items-center gap-4 px-2 sm:py-4">
         <Tooltip>
           <TooltipTrigger asChild>

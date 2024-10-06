@@ -8,6 +8,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -27,6 +28,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Loader2Icon } from "lucide-react";
 import ResendCodeForm from "./ResendCodeForm";
+import Link from "next/link";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -118,6 +120,14 @@ const LoginForm = () => {
           </form>
         </Form>
       </CardContent>
+      <CardFooter className="flex items-center justify-center">
+        <p className="text-center text-sm">
+          Don&apos;t have an account?
+          <Link href="/sign-up" className="underline ml-2">
+            Sign Up
+          </Link>
+        </p>
+      </CardFooter>
     </Card>
   );
 };
