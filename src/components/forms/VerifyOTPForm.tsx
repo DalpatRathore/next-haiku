@@ -24,12 +24,14 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { verifyEmailCode } from "@/actions/user/verifyEmailCode";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import ResendCodeForm from "./ResendCodeForm";
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
@@ -63,14 +65,14 @@ const VerifyOTPForm = ({ userId }: VerifyOTPFormProps) => {
       }
     } catch (error) {
       console.error("Error during OTP submission:", error);
-      toast.error("An unexpected error occurred. Please try again.");
+      toast.error("Something went wrong. Please try again.");
     }
   };
 
   return (
     <Card className="p-10 mx-5">
       <CardHeader className="text-center">
-        <CardTitle>Verification Code</CardTitle>
+        <CardTitle>Email Verification Code</CardTitle>
         <CardDescription>code valid for only 1 hour</CardDescription>
       </CardHeader>
       <CardContent>
@@ -107,12 +109,16 @@ const VerifyOTPForm = ({ userId }: VerifyOTPFormProps) => {
               )}
             />
 
-            <Button type="submit" size={"lg"} className="w-64">
-              Submit
+            <Button type="submit" className="w-64">
+              Verify Email
             </Button>
           </form>
         </Form>
       </CardContent>
+
+      <CardFooter className="flex items-center justify-center">
+        <ResendCodeForm></ResendCodeForm>
+      </CardFooter>
     </Card>
   );
 };

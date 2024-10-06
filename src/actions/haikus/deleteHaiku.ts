@@ -3,6 +3,7 @@
 import { cookies } from "next/headers"; 
 import jwt from "jsonwebtoken"; 
 import HaikuModel from "@/models/haiku.model"; 
+import { revalidatePath } from "next/cache";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
@@ -43,6 +44,8 @@ export const deleteHaiku = async (haikuId: string) => {
                 message: "Haiku not found or you don't have permission to delete it.",
             };
         }
+
+        revalidatePath("/dashboard");
 
         return {
             success: true,

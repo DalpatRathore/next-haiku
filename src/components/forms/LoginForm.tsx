@@ -49,7 +49,13 @@ const LoginForm = () => {
       const response = await loginUser(formData);
       if (!response?.success) {
         toast.error(response?.message);
-        router.push(`/verify/${response.userId}`);
+        if (response.userId) {
+          router.push(`/verify/${response.userId}`);
+        }
+
+        if (response.message !== "Invalid email or password.") {
+          router.push(`/sign-up`);
+        }
       } else {
         toast.success("Login successfully!");
         form.reset();
