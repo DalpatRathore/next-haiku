@@ -3,9 +3,6 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
-import Link from "next/link";
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -29,6 +26,7 @@ import { loginUser } from "@/actions/user/loginUser";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Loader2Icon } from "lucide-react";
+import ResendCodeForm from "./ResendCodeForm";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -95,7 +93,10 @@ const LoginForm = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <div className="flex items-center justify-between">
+                    <FormLabel>Password</FormLabel>
+                    <ResendCodeForm actionType="passwordReset"></ResendCodeForm>
+                  </div>
                   <FormControl>
                     <Input placeholder="Password" {...field} />
                   </FormControl>
@@ -116,21 +117,6 @@ const LoginForm = () => {
             </Button>
           </form>
         </Form>
-        <div className="mt-4 text-center text-sm">
-          Don&apos;t have an account?{" "}
-          <Link href="/sign-up" className="underline">
-            Sign up
-          </Link>
-        </div>
-        {/* <div className="grid gap-2">
-            <div className="flex items-center">
-              <Label htmlFor="password">Password</Label>
-              <Link href="#" className="ml-auto inline-block text-sm underline">
-                Forgot your password?
-              </Link>
-            </div>
-            <Input id="password" type="password" required />
-          </div> */}
       </CardContent>
     </Card>
   );

@@ -13,7 +13,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -24,11 +23,19 @@ import {
 } from "@/components/ui/form";
 import { resendCodeFormSchema } from "@/types/types";
 import { resendVerificationCode } from "@/actions/user/resendVerificationCode";
+
 import toast from "react-hot-toast";
 import { useState } from "react";
+import { sendPasswordResetCode } from "@/actions/user/sendPasswordResetCode";
 
-const ResendCodeForm = () => {
+type ResendCodeFormProps = {
+  actionType: "verification" | "passwordReset"; // Define the action type
+};
+
+const ResendCodeForm = ({ actionType }: ResendCodeFormProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  // Update the default values based on action type if needed
   const form = useForm<z.infer<typeof resendCodeFormSchema>>({
     resolver: zodResolver(resendCodeFormSchema),
     defaultValues: {
@@ -38,13 +45,19 @@ const ResendCodeForm = () => {
 
   const onSubmit = async (values: z.infer<typeof resendCodeFormSchema>) => {
     try {
-      const response = await resendVerificationCode(values.email);
+      let response;
+      // Trigger action based on actionType
+      if (actionType === "verification") {
+        response = await resendVerificationCode(values.email);
+      } else if (actionType === "passwordReset") {
+        response = await sendPasswordResetCode(values.email);
+      }
 
-      if (response.success) {
+      if (response?.success) {
         toast.success(response.message);
         setIsDialogOpen(false);
       } else {
-        toast.error(response.message);
+        toast.error(response?.message || "Something went wrong");
       }
     } catch (error) {
       console.error(error);
@@ -55,17 +68,27 @@ const ResendCodeForm = () => {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          className="w-64"
-          onClick={() => setIsDialogOpen(true)}
-        >
-          Resend Verification Code
-        </Button>
+        {actionType === "verification" ? (
+          <Button
+            variant="outline"
+            className="w-64"
+            onClick={() => setIsDialogOpen(true)}
+          >
+            Resend Verification Code
+          </Button>
+        ) : (
+          <Button variant="link" onClick={() => setIsDialogOpen(true)}>
+            Forgot your password?
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="w-full max-w-md mx-auto">
         <DialogHeader>
-          <DialogTitle>Request Verification Code</DialogTitle>
+          <DialogTitle>
+            {actionType === "verification"
+              ? "Request Verification Code"
+              : "Request Password Reset Code"}
+          </DialogTitle>
         </DialogHeader>
         <DialogDescription>
           Please enter your registered email.

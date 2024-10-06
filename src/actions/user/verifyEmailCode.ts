@@ -8,7 +8,6 @@ const JWT_SECRET = process.env.JWT_SECRET!;
 
 export const verifyEmailCode = async (userId: string, code: string) => {
     try {
-        console.log(userId,code)
         // Connect to the database
         await dbConnect();
 
@@ -20,8 +19,6 @@ export const verifyEmailCode = async (userId: string, code: string) => {
                 message: "User not found or already verified.",
             };
         }
-
-        console.log(user);
 
         // Check if the verification code matches
         if (user.verifyCode !== code) {

@@ -117,7 +117,7 @@ const VerifyOTPForm = ({ userId }: VerifyOTPFormProps) => {
       </CardContent>
 
       <CardFooter className="flex items-center justify-center">
-        <ResendCodeForm></ResendCodeForm>
+        <ResendCodeForm actionType="verification"></ResendCodeForm>
       </CardFooter>
     </Card>
   );

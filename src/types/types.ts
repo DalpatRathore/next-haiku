@@ -20,6 +20,19 @@ export const registerFormSchema = z.object({
       message: "Password must be at least 6 characters.",
     }),
   });
+
+  export const resetPasswordFormSchema = z.object({
+    email: z.string().email({
+      message: "Please provide valid email.",
+    }),
+    newPassword: z.string().min(6, {
+      message: "Password must be at least 6 characters.",
+    }),
+
+    pin: z.string().min(6, {
+      message: "Your verification code must be 6 characters.",
+    })
+  });
   
   export const resendCodeFormSchema = z.object({
     email: z.string().email({
@@ -28,6 +41,7 @@ export const registerFormSchema = z.object({
    
   });
 
+  
    
 
   // Utility function to count syllables
