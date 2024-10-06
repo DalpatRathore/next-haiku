@@ -6,7 +6,9 @@ interface IUser extends Document {
   name: string;
   email: string;
   password: string;
-  isVerified:boolean;
+  verifyCode: string;
+  verifyCodeExpiry: Date;
+  isVerified: boolean;
 }
 
 // Create the User Schema
@@ -26,6 +28,14 @@ const userSchema: Schema<IUser> = new Schema({
     type: String,
     required: true,
     minlength: 6,
+  },
+  verifyCode: {
+    type: String,
+    required: [true, "Verify is required"],
+  },
+  verifyCodeExpiry: {
+    type: Date,
+    required: [true, "Verify code is required"],
   },
   isVerified: {
     type: Boolean,
