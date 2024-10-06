@@ -12,7 +12,8 @@ export async function middleware(req: NextRequest) {
   const isAuthPage =
     url.pathname.startsWith("/sign-in") ||
     url.pathname.startsWith("/sign-up") ||
-    url.pathname.startsWith("/verify");
+    url.pathname.startsWith("/verify")||
+    url.pathname.startsWith("/reset-password");
 
   const isDashboardPage = url.pathname.startsWith("/dashboard");
   const isCreateHaikuPage = url.pathname.startsWith("/create-haiku");
@@ -54,6 +55,7 @@ export const config = {
     "/", 
     "/sign-up", 
     "/sign-in", 
+    "/reset-password",
     "/dashboard/:path*", 
     "/verify/:path*", 
     "/create-haiku"

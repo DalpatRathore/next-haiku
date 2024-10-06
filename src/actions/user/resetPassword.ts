@@ -7,7 +7,6 @@ import bcrypt from 'bcryptjs';
 import { cookies } from "next/headers"; 
 import jwt from 'jsonwebtoken'; 
 
-
 const JWT_SECRET = process.env.JWT_SECRET!;
 
 export const resetPassword = async (formData: FormData) => {
@@ -28,15 +27,31 @@ export const resetPassword = async (formData: FormData) => {
         await dbConnect();
         const { email, pin, newPassword } = parsedData.data;
 
-        // Find the user by email and pin
-        const user = await UserModel.findOne({ email, verifyCode:pin }); 
-
+        // Find the user by email
+        const user = await UserModel.findOne({ email }); 
 
         // Check if the user exists
         if (!user) {
             return {
                 success: false,
                 message: "Invalid email or pin.",
+            };
+        }
+
+        // Check if the verification code matches
+        if (user.verifyCode !== pin) {
+            return {
+                success: false,
+                message: "Invalid verification code.",
+            };
+        }
+
+        // Check if the verification code has expired
+        const currentTime = new Date();
+        if (currentTime > user.verifyCodeExpiry) {
+            return {
+                success: false,
+                message: "Code has expired. Please request a new code.",
             };
         }
 
@@ -47,11 +62,7 @@ export const resetPassword = async (formData: FormData) => {
         user.password = hashedPassword;
         await user.save();
 
-        // Optionally, clear the pin or mark it as used if needed
-        // user.pin = undefined; // Uncomment if you need to clear the pin
-        // await user.save();
-
-        // You can set a new token if needed
+        // Optionally, create a new token if needed
         const tokenValue = jwt.sign(
             {
                 name: user.name,

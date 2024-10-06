@@ -52,7 +52,6 @@ const ResendCodeForm = ({ actionType }: ResendCodeFormProps) => {
       } else if (actionType === "passwordReset") {
         response = await sendPasswordResetCode(values.email);
       }
-
       if (response?.success) {
         toast.success(response.message);
         setIsDialogOpen(false);
@@ -82,7 +81,7 @@ const ResendCodeForm = ({ actionType }: ResendCodeFormProps) => {
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="w-full max-w-md mx-auto">
+      <DialogContent className="w-full h-60 max-w-xl mx-auto">
         <DialogHeader>
           <DialogTitle>
             {actionType === "verification"
