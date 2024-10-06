@@ -19,6 +19,7 @@ import {
 import { ImageIcon } from "lucide-react";
 import { DashboardIcon } from "@radix-ui/react-icons";
 import { Button } from "./ui/button";
+import MobileAsideMenu from "./MobileAsideMenu";
 
 const Header = async () => {
   const authUser = await getUser();
@@ -82,6 +83,9 @@ const Header = async () => {
                     </Tooltip>
                   </nav>
                 </TooltipProvider>
+                <div className="block md:hidden">
+                  <MobileAsideMenu></MobileAsideMenu>
+                </div>
                 <UserAccount user={authUser.user}></UserAccount>
                 <LogoutUser />
               </>
