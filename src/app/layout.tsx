@@ -5,8 +5,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { Toaster } from "react-hot-toast";
-import AsideNavigation from "@/components/AsideNavigation";
-import { TooltipProvider } from "@/components/ui/tooltip";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -42,9 +40,6 @@ export default function RootLayout({
         >
           <div className="min-h-[100vh] h-full grid grid-rows-[auto_1fr_auto]">
             <Header></Header>
-            <TooltipProvider>
-              <AsideNavigation></AsideNavigation>
-            </TooltipProvider>
             <main className="w-full mx-auto max-w-screen-xl h-full">
               {children}
             </main>

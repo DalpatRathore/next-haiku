@@ -8,7 +8,7 @@ import React from "react";
 type HaikuResponse = {
   success: boolean;
   message: string;
-  haiku?: Haiku; // Updated to use Haiku type
+  haiku?: Haiku;
 };
 
 const EditHaikuIdPage = async ({ params }: { params: { haikuId: string } }) => {

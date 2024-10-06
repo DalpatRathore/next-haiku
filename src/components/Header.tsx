@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "./ui/button";
 import {
   ImagePlusIcon,
   LogInIcon,
@@ -11,17 +10,26 @@ import ThemeToggle from "./ThemeToggle";
 import UserAccount from "./UserAccount";
 import { getUser } from "@/actions/user/getUser";
 import LogoutUser from "./LogoutUser";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
+import { ImageIcon } from "lucide-react";
 import { DashboardIcon } from "@radix-ui/react-icons";
+import { Button } from "./ui/button";
 
 const Header = async () => {
   const authUser = await getUser();
+
   return (
-    <header className="border-b ">
+    <header className="border-b">
       <div className="mx-auto max-w-screen-xl px-4 py-6">
         <div className="flex items-center justify-between">
           <Link href={"/"} className="flex items-center justify-center gap-2">
             <Image src={"/logo.svg"} width={75} height={75} alt="logo" />
-            <h1 className="hidden md:block text-2xl font-bold">
+            <h1 className="hidden md:flex text-2xl font-bold">
               <span className="text-[#4e4187]">Next</span>
               <span className="text-[#fca311]">Haiku</span>
             </h1>
@@ -30,61 +38,83 @@ const Header = async () => {
           <div className="flex items-center gap-4">
             {authUser.user ? (
               <>
+                <TooltipProvider>
+                  <nav className="hidden md:flex items-center gap-4">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="outline" size="icon" asChild>
+                          <Link href="/dashboard">
+                            <DashboardIcon />
+                            <span className="sr-only">Dashboard</span>
+                          </Link>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom">Dashboard</TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="outline" size="icon" asChild>
+                          <Link href="/create-haiku">
+                            <ImagePlusIcon className="w-4 h-4" />
+                            <span className="sr-only">Create Haiku</span>
+                          </Link>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom">
+                        Create Haiku
+                      </TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          size="icon"
+                          asChild
+                          variant="outline"
+                          className="hidden md:flex"
+                        >
+                          <Link href="/about-haiku">
+                            <ImageIcon className="h-5 w-5" />
+                            <span className="sr-only">About Haiku</span>
+                          </Link>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom">About Haiku</TooltipContent>
+                    </Tooltip>
+                  </nav>
+                </TooltipProvider>
                 <UserAccount user={authUser.user}></UserAccount>
-                <Button
-                  variant={"outline"}
-                  size={"icon"}
-                  asChild
-                  title="Dashboard"
-                  className="flex md:hidden"
-                >
-                  <Link href={"/dashboard"}>
-                    <DashboardIcon></DashboardIcon>
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  size={"icon"}
-                  variant={"outline"}
-                  title="Create Haiku"
-                  className="flex md:hidden"
-                >
-                  <Link href={"/create-haiku"}>
-                    <ImagePlusIcon className="w-4 h-4"></ImagePlusIcon>
-                  </Link>
-                </Button>
-                <LogoutUser></LogoutUser>
+                <LogoutUser />
               </>
             ) : (
-              <>
-                <Button
-                  type="button"
-                  variant={"outline"}
-                  title="sign-in"
-                  className="flex items-center gap-2"
-                  asChild
-                  size={"icon"}
-                >
-                  <Link href={"/sign-in"}>
-                    <LogInIcon className="w-4 h-4" />
-                  </Link>
-                </Button>
-                <Button
-                  type="button"
-                  variant={"outline"}
-                  title="sign-up"
-                  className="flex items-center gap-2"
-                  asChild
-                  size={"icon"}
-                >
-                  <Link href={"/sign-up"}>
-                    <SquareArrowOutUpRightIcon className="w-4 h-4" />
-                  </Link>
-                </Button>
-              </>
+              <TooltipProvider>
+                <nav className="flex items-center gap-4">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button variant="outline" size="icon" asChild>
+                        <Link href="/sign-in">
+                          <LogInIcon className="w-4 h-4" />
+                          <span className="sr-only">Sign In</span>
+                        </Link>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom">Sign In</TooltipContent>
+                  </Tooltip>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button variant="outline" size="icon" asChild>
+                        <Link href="/sign-up">
+                          <SquareArrowOutUpRightIcon className="w-4 h-4" />
+                          <span className="sr-only">Sign Up</span>
+                        </Link>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom">Sign Up</TooltipContent>
+                  </Tooltip>
+                </nav>
+              </TooltipProvider>
             )}
 
-            <ThemeToggle></ThemeToggle>
+            <ThemeToggle />
           </div>
         </div>
       </div>

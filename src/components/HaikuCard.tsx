@@ -15,7 +15,7 @@ export type Haiku = {
   line1: string;
   line2: string;
   line3: string;
-  photoId: string;
+  photoId?: string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -54,7 +54,7 @@ const HaikuCard = ({ haikus }: HaikuCardProps) => {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 max-w-7xl mx-auto px-5 lg:px-0 w-full">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 max-w-7xl mx-auto px-5 w-full">
       {haikuList.map((haiku, index) => (
         <Card
           key={haiku._id}
@@ -90,7 +90,7 @@ const Card = React.memo(
         onMouseEnter={() => setHovered(index)}
         onMouseLeave={() => setHovered(null)}
         className={cn(
-          "relative bg-gray-100 dark:bg-neutral-900 overflow-hidden transition-all duration-300 ease-out rounded-md",
+          "relative bg-gray-100 dark:bg-neutral-900 overflow-hidden transition-all duration-300 max-w-2xl mx-auto ease-out rounded-md",
           hovered !== null && hovered !== index && "blur-sm scale-[0.98]",
           "w-full h-auto aspect-[4/3] md:aspect-[4/3] lg:aspect-[4/3]" // Keep the aspect ratio
         )}
