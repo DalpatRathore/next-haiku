@@ -53,13 +53,13 @@ export const resendVerificationCode = async (email: string) => {
 
     return {
       success: true,
-      message: "Verification email has been resent.",
+      message: "Verification email resent.",
     };
   } catch (error) {
     console.error("Error resending verification email:", error);
     return {
       success: false,
-      message: "An error occurred while resending the verification email.",
+      message: "Something went wrong!",
     };
   }
 };

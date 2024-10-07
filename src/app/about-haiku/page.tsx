@@ -12,7 +12,6 @@ import {
 const AboutHaikuPage = () => {
   return (
     <div className="min-h-screen py-12 px-6">
-      {/* Heading Section */}
       <div className="max-w-4xl mx-auto text-center mb-8 md:mb-12">
         <h1 className="text-2xl md:text-4xl font-bold">About Haiku</h1>
         <p className="mt-4 text-sm md:text-base text-muted-foreground">
@@ -23,7 +22,6 @@ const AboutHaikuPage = () => {
         </p>
       </div>
 
-      {/* Bento Grid with Haiku Text */}
       <BentoGrid className="max-w-5xl mx-auto grid gap-6">
         {items.map((item, i) => (
           <BentoGridItem
@@ -42,7 +40,6 @@ const AboutHaikuPage = () => {
 
 export default AboutHaikuPage;
 
-// Sample Haiku Texts
 const sampleHaikus = [
   {
     text: "An old silent pond...\nA frog jumps into the pond\nSplash! Silence again.",
@@ -70,7 +67,6 @@ const sampleHaikus = [
   },
 ];
 
-// HaikuCard Component to Display Haiku Text
 const HaikuCard = ({ haiku }: { haiku: { text: string; author: string } }) => (
   <div className="w-full bg-white p-4 rounded-lg shadow-md bg-gradient-to-r from-green-200 via-blue-100 to-purple-200">
     <div className="w-full max-w-sm mx-auto ">
@@ -82,7 +78,6 @@ const HaikuCard = ({ haiku }: { haiku: { text: string; author: string } }) => (
   </div>
 );
 
-// Updated BentoGrid Items with Haiku Text
 const items = [
   {
     title: "Nature's Whisper",

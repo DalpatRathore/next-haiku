@@ -2,10 +2,10 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from 'jose';
 
-const secret = new TextEncoder().encode(process.env.JWT_SECRET!); // Ensure your JWT_SECRET is defined
+const secret = new TextEncoder().encode(process.env.JWT_SECRET!); 
 
 export async function middleware(req: NextRequest) {
-  const token = req.cookies.get("mynexthaiku")?.value; // Get the JWT token from cookies
+  const token = req.cookies.get("mynexthaiku")?.value; 
   const url = req.nextUrl.clone(); // Clone the URL to safely modify it
 
   // Define the pages

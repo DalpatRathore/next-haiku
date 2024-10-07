@@ -1,7 +1,7 @@
 import ResetPasswordForm from "@/components/forms/ResetPasswordForm";
 import React from "react";
 
-const ResetPasswordPpage = () => {
+const ResetPasswordPage = () => {
   return (
     <div className="h-full w-full flex items-center justify-center px-5">
       <ResetPasswordForm></ResetPasswordForm>
@@ -9,4 +9,4 @@ const ResetPasswordPpage = () => {
   );
 };
 
-export default ResetPasswordPpage;
+export default ResetPasswordPage;

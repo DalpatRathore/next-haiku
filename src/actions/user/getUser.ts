@@ -53,7 +53,7 @@ export const getUser = async () => {
         console.error("Error fetching user:", error);
         return {
             success: false,
-            message: "An unexpected error occurred while fetching user.",
+            message: "Something went wrong!",
             error: error instanceof Error ? error.message : "Unknown error",
         };
     }

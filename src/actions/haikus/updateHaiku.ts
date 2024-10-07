@@ -54,7 +54,7 @@ export const updateHaiku = async (formData: FormData, id: string) => {
         if (!existingHaiku) {
             return {
                 success: false,
-                message: "Haiku not found or user not authorized.",
+                message: "Haiku not found!.",
             };
         }
 
@@ -87,7 +87,7 @@ export const updateHaiku = async (formData: FormData, id: string) => {
         if (!updatedHaiku) {
             return {
                 success: false,
-                message: "Haiku not found or you're not authorized to update it.",
+                message: "Haiku not found!",
             };
         }
         revalidatePath("/dashboard");
@@ -99,7 +99,7 @@ export const updateHaiku = async (formData: FormData, id: string) => {
         console.error("Error updating haiku:", error);
         return {
             success: false,
-            message: "An unexpected error occurred.",
+            message: "Something went wrong!",
             error: error instanceof Error ? error.message : "Unknown error",
         };
     }

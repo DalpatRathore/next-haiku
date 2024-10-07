@@ -44,7 +44,7 @@ export const createHaiku = async (formData: FormData) => {
             return {
                 success: false,
                 message: "Validation errors occurred.",
-                errors: parsedData.error.errors, // Provide validation error details
+                errors: parsedData.error.errors, 
             };
         }
 
@@ -64,10 +64,9 @@ export const createHaiku = async (formData: FormData) => {
             line2,
             line3,
             photoId: result ? publicId :"",
-            user: decodedToken.userId, // Reference the user ID from the token
+            user: decodedToken.userId, 
         });
 
-        // Save the haiku to the database
         await newHaiku.save();
         revalidatePath("/dashboard");
         return {

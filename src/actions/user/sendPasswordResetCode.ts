@@ -22,7 +22,7 @@ export const sendPasswordResetCode = async (email: string) => {
     if (!user.isVerified) {
       return {
         success: false,
-        message: "Account is not verified. Please verify your account first.",
+        message: "Account is not verified.",
       };
     }
 
@@ -48,13 +48,13 @@ export const sendPasswordResetCode = async (email: string) => {
 
     return {
       success: true,
-      message: "Password reset code has been sent to your email.",
+      message: "Password reset code sent to email.",
     };
   } catch (error) {
     console.error("Error sending password reset email:", error);
     return {
       success: false,
-      message: "An error occurred while sending the password reset email.",
+      message: "Something went wrong!",
     };
   }
 };

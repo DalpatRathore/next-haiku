@@ -37,7 +37,7 @@ export const getHaiku = async (haikuId: string) => {
         if (!haiku) {
             return {
                 success: false,
-                message: "Haiku not found or you don't have permission to view it.",
+                message: "Haiku not found!",
             };
         }
 
@@ -50,7 +50,7 @@ export const getHaiku = async (haikuId: string) => {
         console.error("Error fetching haiku:", error);
         return {
             success: false,
-            message: "An unexpected error occurred while fetching haiku.",
+            message: "Something went wrong",
         };
     }
 };

@@ -41,7 +41,7 @@ export const deleteHaiku = async (haikuId: string) => {
         if (!deletedHaiku) {
             return {
                 success: false,
-                message: "Haiku not found or you don't have permission to delete it.",
+                message: "Haiku not found.",
             };
         }
 
@@ -55,7 +55,7 @@ export const deleteHaiku = async (haikuId: string) => {
         console.error("Error deleting haiku:", error);
         return {
             success: false,
-            message: "An unexpected error occurred while deleting haiku.",
+            message: "Something went wrong!",
         };
     }
 };

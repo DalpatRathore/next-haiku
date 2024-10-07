@@ -9,7 +9,7 @@ import React from "react";
 type HaikusResponse = {
   success: boolean;
   message: string;
-  haikus?: Haiku[]; // Updated to use Haiku type
+  haikus?: Haiku[];
 };
 
 const DashboardPage = async () => {
@@ -17,7 +17,7 @@ const DashboardPage = async () => {
   const haikus: Haiku[] =
     response.success && response.haikus
       ? response.haikus.map(haiku => ({
-          _id: haiku._id.toString(), // Convert ObjectId to string
+          _id: haiku._id.toString(),
           line1: haiku.line1,
           line2: haiku.line2,
           line3: haiku.line3,

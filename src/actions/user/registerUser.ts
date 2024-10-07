@@ -32,7 +32,7 @@ export const registerUser = async (formData: FormData) => {
         if (existingUser) {
             return {
                 success: false,
-                message: "User already exists with the given email.",
+                message: "User already exists with the email.",
             };
         }
 
@@ -74,7 +74,7 @@ export const registerUser = async (formData: FormData) => {
          // Return success with user ID
          return {
             success: true,
-            message: "Registration successful. Please verify email.",
+            message: "sign up successful. Please verify email.",
             userId
         };
 
@@ -85,7 +85,7 @@ export const registerUser = async (formData: FormData) => {
         console.error("Error registering user:", error);
         return {
             success: false,
-            message: "Unknown error occurred. Try again later.",
+            message: "Something went wrong!",
             error: error instanceof Error ? error.message : "Unknown error",
         };
     }

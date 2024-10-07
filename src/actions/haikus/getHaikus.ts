@@ -9,7 +9,7 @@ const JWT_SECRET = process.env.JWT_SECRET!;
 export const getHaikus = async () => {
     try {
         const cookieStore = cookies(); 
-        const token = cookieStore.get("mynexthaiku")?.value; // Retrieve the JWT token
+        const token = cookieStore.get("mynexthaiku")?.value; 
 
         // Check if the token exists
         if (!token) {
@@ -31,9 +31,9 @@ export const getHaikus = async () => {
         }
 
 
-        // Fetch haikus associated with the userId from the decoded token and sort by createdAt in descending order
+        // Fetch haikus associated with the userId from the decoded token
         const haikus = await HaikuModel.find({ user: decodedToken.userId })
-            .sort({ createdAt: -1 }) // Sort by createdAt in descending order
+            .sort({ updatedAt: -1 }) // Sort by updatedAt in descending order
             .lean();
 
         // Return success with the list of haikus
@@ -47,7 +47,7 @@ export const getHaikus = async () => {
         console.error("Error fetching haikus:", error);
         return {
             success: false,
-            message: "An unexpected error occurred while fetching haikus.", // Return an error message
+            message: "Something went wrong.", // Return an error message
         };
     }
 };
