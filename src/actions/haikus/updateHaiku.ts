@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import HaikuModel from "@/models/haiku.model"; 
 import dbConnect from "@/config/dbConnect"; 
 import { verifySignature } from "@/lib/verifySignature";
+import { revalidatePath } from "next/cache";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
@@ -89,7 +90,7 @@ export const updateHaiku = async (formData: FormData, id: string) => {
                 message: "Haiku not found or you're not authorized to update it.",
             };
         }
-
+        revalidatePath("/dashboard");
         return {
             success: true,
             message: "Haiku updated successfully.",

@@ -27,12 +27,15 @@ import { resendVerificationCode } from "@/actions/user/resendVerificationCode";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { sendPasswordResetCode } from "@/actions/user/sendPasswordResetCode";
+import { Loader2Icon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type ResendCodeFormProps = {
   actionType: "verification" | "passwordReset"; // Define the action type
 };
 
 const ResendCodeForm = ({ actionType }: ResendCodeFormProps) => {
+  const router = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   // Update the default values based on action type if needed
@@ -42,6 +45,8 @@ const ResendCodeForm = ({ actionType }: ResendCodeFormProps) => {
       email: "",
     },
   });
+
+  const { isSubmitting } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof resendCodeFormSchema>) => {
     try {
@@ -54,6 +59,9 @@ const ResendCodeForm = ({ actionType }: ResendCodeFormProps) => {
       }
       if (response?.success) {
         toast.success(response.message);
+        if (actionType === "passwordReset" && response.success) {
+          router.push("/reset-password");
+        }
         setIsDialogOpen(false);
       } else {
         toast.error(response?.message || "Something went wrong");
@@ -110,7 +118,16 @@ const ResendCodeForm = ({ actionType }: ResendCodeFormProps) => {
               )}
             />
             <div className="flex items-center justify-end">
-              <Button type="submit">Send</Button>
+              <Button type="submit" size={"lg"} disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    Sending...
+                    <Loader2Icon className="w-4 h-4 ml-2 animate-spin" />
+                  </>
+                ) : (
+                  "Send"
+                )}
+              </Button>
             </div>
           </form>
         </Form>

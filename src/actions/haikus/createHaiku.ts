@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import HaikuModel from "@/models/haiku.model"; // Import your Haiku model
 import dbConnect from "@/config/dbConnect";
 import { verifySignature } from "@/lib/verifySignature";
+import { revalidatePath } from "next/cache";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
@@ -68,7 +69,7 @@ export const createHaiku = async (formData: FormData) => {
 
         // Save the haiku to the database
         await newHaiku.save();
-
+        revalidatePath("/dashboard");
         return {
             success: true,
             message: "Haiku created successfully.",

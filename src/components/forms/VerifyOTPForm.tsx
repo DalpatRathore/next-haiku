@@ -32,6 +32,7 @@ import { verifyEmailCode } from "@/actions/user/verifyEmailCode";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import ResendCodeForm from "./ResendCodeForm";
+import { Loader2Icon } from "lucide-react";
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
@@ -52,6 +53,8 @@ const VerifyOTPForm = ({ userId }: VerifyOTPFormProps) => {
       pin: "",
     },
   });
+
+  const { isSubmitting } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     try {
@@ -109,8 +112,15 @@ const VerifyOTPForm = ({ userId }: VerifyOTPFormProps) => {
               )}
             />
 
-            <Button type="submit" className="w-64">
-              Verify Email
+            <Button type="submit" className="w-64" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  Processing...
+                  <Loader2Icon className="w-4 h-4 ml-2 animate-spin" />
+                </>
+              ) : (
+                "Verify Email"
+              )}
             </Button>
           </form>
         </Form>
