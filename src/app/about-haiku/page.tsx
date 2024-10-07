@@ -13,9 +13,9 @@ const AboutHaikuPage = () => {
   return (
     <div className="min-h-screen py-12 px-6">
       {/* Heading Section */}
-      <div className="max-w-4xl mx-auto text-center mb-12">
-        <h1 className="text-5xl font-bold">About Haiku</h1>
-        <p className="mt-4 text-lg text-muted-foreground">
+      <div className="max-w-4xl mx-auto text-center mb-8 md:mb-12">
+        <h1 className="text-2xl md:text-4xl font-bold">About Haiku</h1>
+        <p className="mt-4 text-sm md:text-base text-muted-foreground">
           Haiku is a traditional form of Japanese poetry that captures the
           beauty of fleeting moments in nature and life. With just 17 syllables,
           each haiku offers a window into profound emotions and a deep
@@ -24,7 +24,7 @@ const AboutHaikuPage = () => {
       </div>
 
       {/* Bento Grid with Haiku Text */}
-      <BentoGrid className="max-w-6xl mx-auto grid gap-6">
+      <BentoGrid className="max-w-5xl mx-auto grid gap-6">
         {items.map((item, i) => (
           <BentoGridItem
             key={i}
@@ -72,11 +72,13 @@ const sampleHaikus = [
 
 // HaikuCard Component to Display Haiku Text
 const HaikuCard = ({ haiku }: { haiku: { text: string; author: string } }) => (
-  <div className="bg-white p-4 rounded-lg shadow-md bg-gradient-to-r from-green-100 via-blue-50 to-purple-100">
-    <p className="text-lg italic text-gray-700 whitespace-pre-line">
-      {haiku.text}
-    </p>
-    <p className="mt-2 text-right text-gray-500">— {haiku.author}</p>
+  <div className="w-full bg-white p-4 rounded-lg shadow-md bg-gradient-to-r from-green-200 via-blue-100 to-purple-200">
+    <div className="w-full max-w-sm mx-auto ">
+      <p className="text-md text-slate-700 whitespace-pre-line italic">
+        {haiku.text}
+      </p>
+      <p className="mt-2 text-center text-blue-950 text-md">— {haiku.author}</p>
+    </div>
   </div>
 );
 
@@ -96,17 +98,18 @@ const items = [
     icon: <CloudSun className="h-6 w-6 text-yellow-500" />,
   },
   {
-    title: "Mountains and Stillness",
-    description: "Discover how stillness and calm are represented in Haiku.",
-    header: <HaikuCard haiku={sampleHaikus[2]} />,
-    icon: <Mountain className="h-6 w-6 text-gray-500" />,
-  },
-  {
     title: "The Power of Wind",
     description: "Wind symbolizes the unseen forces of nature in many haikus.",
     header: <HaikuCard haiku={sampleHaikus[3]} />,
     icon: <Wind className="h-6 w-6 text-blue-500" />,
   },
+  {
+    title: "Mountains and Stillness",
+    description: "Discover how stillness and calm are represented in Haiku.",
+    header: <HaikuCard haiku={sampleHaikus[2]} />,
+    icon: <Mountain className="h-6 w-6 text-gray-500" />,
+  },
+
   {
     title: "Mindfulness in Words",
     description: "Each word in Haiku is chosen with mindfulness and intent.",

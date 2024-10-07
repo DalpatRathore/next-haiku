@@ -1,17 +1,11 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import {
-  LogOutIcon,
-  MenuIcon,
-  ImagePlusIcon,
-  TableOfContentsIcon,
-} from "lucide-react";
+import { ImagePlusIcon, TableOfContentsIcon } from "lucide-react";
 import {
   Sheet,
   SheetClose,
   SheetContent,
   SheetFooter,
-  SheetHeader,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Link from "next/link";
