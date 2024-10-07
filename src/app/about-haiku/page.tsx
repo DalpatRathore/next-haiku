@@ -1,17 +1,30 @@
 import React from "react";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import {
-  ArrowRightSquare,
-  ClipboardCopy,
-  File,
-  Signature,
-  TableColumnsSplit,
+  Leaf,
+  CloudSun,
+  Mountain,
+  Wind,
+  PenTool,
+  BookOpen,
 } from "lucide-react";
 
 const AboutHaikuPage = () => {
   return (
-    <div className="h-full w-full flex items-center justify-center py-8 px-5">
-      <BentoGrid className="max-w-4xl mx-auto">
+    <div className="min-h-screen py-12 px-6">
+      {/* Heading Section */}
+      <div className="max-w-4xl mx-auto text-center mb-12">
+        <h1 className="text-5xl font-bold">About Haiku</h1>
+        <p className="mt-4 text-lg text-muted-foreground">
+          Haiku is a traditional form of Japanese poetry that captures the
+          beauty of fleeting moments in nature and life. With just 17 syllables,
+          each haiku offers a window into profound emotions and a deep
+          appreciation for simplicity and mindfulness.
+        </p>
+      </div>
+
+      {/* Bento Grid with Haiku Text */}
+      <BentoGrid className="max-w-6xl mx-auto grid gap-6">
         {items.map((item, i) => (
           <BentoGridItem
             key={i}
@@ -19,7 +32,7 @@ const AboutHaikuPage = () => {
             description={item.description}
             header={item.header}
             icon={item.icon}
-            className={i === 3 || i === 6 ? "md:col-span-2" : ""}
+            className={i === 1 || i === 2 || i === 5 ? "md:col-span-2" : ""}
           />
         ))}
       </BentoGrid>
@@ -29,39 +42,82 @@ const AboutHaikuPage = () => {
 
 export default AboutHaikuPage;
 
-const Skeleton = () => (
-  <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-200 dark:from-neutral-900 dark:to-neutral-800 to-neutral-100"></div>
+// Sample Haiku Texts
+const sampleHaikus = [
+  {
+    text: "An old silent pond...\nA frog jumps into the pond\nSplash! Silence again.",
+    author: "Matsuo Bashō",
+  },
+  {
+    text: "In the cicada's cry\nNo sign can foretell\nHow soon it must die.",
+    author: "Matsuo Bashō",
+  },
+  {
+    text: "The light of a candle\nIs transferred to another candle\nSpring twilight.",
+    author: "Yosa Buson",
+  },
+  {
+    text: "Over the wintry\nForest, winds howl in rage\nWith no leaves to blow.",
+    author: "Natsume Sōseki",
+  },
+  {
+    text: "A world of dew,\nAnd within every dewdrop\nA world of struggle.",
+    author: "Kobayashi Issa",
+  },
+  {
+    text: "A summer river being crossed\nHow pleasing\nWith sandals in my hands!",
+    author: "Yosa Buson",
+  },
+];
+
+// HaikuCard Component to Display Haiku Text
+const HaikuCard = ({ haiku }: { haiku: { text: string; author: string } }) => (
+  <div className="bg-white p-4 rounded-lg shadow-md bg-gradient-to-r from-green-100 via-blue-50 to-purple-100">
+    <p className="text-lg italic text-gray-700 whitespace-pre-line">
+      {haiku.text}
+    </p>
+    <p className="mt-2 text-right text-gray-500">— {haiku.author}</p>
+  </div>
 );
+
+// Updated BentoGrid Items with Haiku Text
 const items = [
   {
-    title: "The Dawn of Innovation",
-    description: "Explore the birth of groundbreaking ideas and inventions.",
-    header: <Skeleton />,
-    icon: <ClipboardCopy className="h-4 w-4 text-neutral-500" />,
-  },
-  {
-    title: "The Digital Revolution",
-    description: "Dive into the transformative power of technology.",
-    header: <Skeleton />,
-    icon: <File className="h-4 w-4 text-neutral-500" />,
-  },
-  {
-    title: "The Art of Design",
-    description: "Discover the beauty of thoughtful and functional design.",
-    header: <Skeleton />,
-    icon: <Signature className="h-4 w-4 text-neutral-500" />,
-  },
-  {
-    title: "The Power of Communication",
+    title: "Nature's Whisper",
     description:
-      "Understand the impact of effective communication in our lives.",
-    header: <Skeleton />,
-    icon: <TableColumnsSplit className="h-4 w-4 text-neutral-500" />,
+      "Haikus often capture the essence of nature in just a few words.",
+    header: <HaikuCard haiku={sampleHaikus[0]} />,
+    icon: <Leaf className="h-6 w-6 text-green-500" />,
   },
   {
-    title: "The Pursuit of Knowledge",
-    description: "Join the quest for understanding and enlightenment.",
-    header: <Skeleton />,
-    icon: <ArrowRightSquare className="h-4 w-4 text-neutral-500" />,
+    title: "The Changing Seasons",
+    description: "Seasons are central themes in traditional Haiku poetry.",
+    header: <HaikuCard haiku={sampleHaikus[1]} />,
+    icon: <CloudSun className="h-6 w-6 text-yellow-500" />,
+  },
+  {
+    title: "Mountains and Stillness",
+    description: "Discover how stillness and calm are represented in Haiku.",
+    header: <HaikuCard haiku={sampleHaikus[2]} />,
+    icon: <Mountain className="h-6 w-6 text-gray-500" />,
+  },
+  {
+    title: "The Power of Wind",
+    description: "Wind symbolizes the unseen forces of nature in many haikus.",
+    header: <HaikuCard haiku={sampleHaikus[3]} />,
+    icon: <Wind className="h-6 w-6 text-blue-500" />,
+  },
+  {
+    title: "Mindfulness in Words",
+    description: "Each word in Haiku is chosen with mindfulness and intent.",
+    header: <HaikuCard haiku={sampleHaikus[4]} />,
+    icon: <PenTool className="h-6 w-6 text-red-500" />,
+  },
+  {
+    title: "Haiku’s History",
+    description:
+      "Explore the rich history of Haiku, from its origins to today.",
+    header: <HaikuCard haiku={sampleHaikus[5]} />,
+    icon: <BookOpen className="h-6 w-6 text-purple-500" />,
   },
 ];

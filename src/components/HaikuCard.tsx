@@ -104,6 +104,7 @@ const Card = React.memo(
           <CldImage
             className="absolute inset-0 z-10"
             fillBackground
+            enhance
             overlays={[
               {
                 position: {
@@ -117,13 +118,21 @@ const Card = React.memo(
                   fontFamily: "Source sans Pro",
                   fontSize: 72,
                   fontWeight: "bold",
+                  fontStyle: "italic",
+                  letterSpacing: "5",
                   text: `${card.line1}%0A${card.line2}%0a${card.line3}`,
                 },
+                effects: [
+                  {
+                    shear: "0:-10",
+                    opacity: 100,
+                  },
+                ],
               },
               {
                 position: {
-                  x: 50,
-                  y: 450,
+                  x: 49,
+                  y: 445,
                   angle: -12,
                   gravity: "north_west",
                 },
@@ -132,8 +141,16 @@ const Card = React.memo(
                   fontFamily: "Source sans Pro",
                   fontSize: 72,
                   fontWeight: "bold",
+                  fontStyle: "italic",
+                  letterSpacing: "5",
                   text: `${card.line1}%0A${card.line2}%0a${card.line3}`,
                 },
+                effects: [
+                  {
+                    shear: "0:-10",
+                    opacity: 100,
+                  },
+                ],
               },
             ]}
             crop={{
