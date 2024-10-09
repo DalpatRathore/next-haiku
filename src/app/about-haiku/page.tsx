@@ -68,16 +68,18 @@ const sampleHaikus = [
 ];
 
 const HaikuCard = ({ haiku }: { haiku: { text: string; author: string } }) => (
-  <div className="w-full bg-white p-4 rounded-lg shadow-md bg-gradient-to-r from-green-200 via-blue-100 to-purple-200">
+  <div className="w-full  p-4 rounded-lg shadow bg-gradient-to-r from-neutral-300 to-stone-400">
     <div className="w-full max-w-sm mx-auto ">
-      <p className="text-md text-slate-700 whitespace-pre-line italic">
+      <p className="text-md bg-gradient-to-r from-yellow-800 to-purple-800 bg-clip-text text-transparent whitespace-pre-line italic drop-shadow inline-block">
         {haiku.text}
       </p>
-      <p className="mt-2 text-center text-blue-950 text-md">— {haiku.author}</p>
+      <p className="mt-2 text-center bg-gradient-to-r from-yellow-800 to-purple-800 bg-clip-text text-transparent text-md drop-shadow">
+        — {haiku.author}
+      </p>
     </div>
   </div>
 );
-
+// bg-gradient-to-r
 const items = [
   {
     title: "Nature's Whisper",
