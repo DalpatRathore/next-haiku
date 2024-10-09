@@ -32,7 +32,7 @@ export const registerUser = async (formData: FormData) => {
         if (existingUser) {
             return {
                 success: false,
-                message: "User already exists with the email.",
+                message: "User already exists with the email. \Please login with email & password",
             };
         }
 
@@ -74,7 +74,7 @@ export const registerUser = async (formData: FormData) => {
          // Return success with user ID
          return {
             success: true,
-            message: "sign up successful. Please verify email.",
+            message: "sign up successful. \nPlease verify email.",
             userId
         };
 

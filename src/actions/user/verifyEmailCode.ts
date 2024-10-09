@@ -16,7 +16,7 @@ export const verifyEmailCode = async (userId: string, code: string) => {
         if (!user) {
             return {
                 success: false,
-                message: "User not found or already verified.",
+                message: "User account not found \nor already verified.",
             };
         }
 
@@ -33,7 +33,7 @@ export const verifyEmailCode = async (userId: string, code: string) => {
         if (currentTime > user.verifyCodeExpiry) {
             return {
                 success: false,
-                message: "Code has expired. Please request a new code.",
+                message: "Verfication Code has expired. \nPlease request a new verification code.",
             };
         }
 
@@ -61,7 +61,7 @@ export const verifyEmailCode = async (userId: string, code: string) => {
 
         return {
             success: true,
-            message: "Email verified successfully",
+            message: "Email verified successfully.",
         };
     } catch (error) {
         console.error("Error verifying email code:", error);

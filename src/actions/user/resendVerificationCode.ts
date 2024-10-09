@@ -15,7 +15,7 @@ export const resendVerificationCode = async (email: string) => {
     if (!user) {
       return {
         success: false,
-        message: "No account found with this email.",
+        message: "No account found with this email. \nPlease register your account.",
       };
     }
 

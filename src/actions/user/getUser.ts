@@ -37,7 +37,7 @@ export const getUser = async () => {
         if (!user) {
             return {
                 success: false,
-                message: "User not found.",
+                message: "Account not found. Please register first",
             };
         }
 

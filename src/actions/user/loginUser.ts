@@ -34,7 +34,7 @@ export const loginUser = async (formData: FormData) => {
         if (!user) {
             return {
                 success: false,
-                message: "Email not found!",
+                message: "Email Account not found. \nPlease register first.",
             };
         }
 

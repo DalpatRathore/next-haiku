@@ -34,7 +34,7 @@ export const resetPassword = async (formData: FormData) => {
         if (!user) {
             return {
                 success: false,
-                message: "Invalid email or pin.",
+                message: "Invalid email or Verification code.",
             };
         }
 
@@ -51,7 +51,7 @@ export const resetPassword = async (formData: FormData) => {
         if (currentTime > user.verifyCodeExpiry) {
             return {
                 success: false,
-                message: "Code has expired. Please request a new code.",
+                message: "Verification code has expired. \nPlease request a new verification code.",
             };
         }
 

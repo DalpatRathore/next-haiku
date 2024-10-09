@@ -20,7 +20,7 @@ export const createHaiku = async (formData: FormData) => {
         if (!token) {
             return {
                 success: false,
-                message: "Unauthorized user",
+                message: "Unauthorized user acount",
             };
         }
 
