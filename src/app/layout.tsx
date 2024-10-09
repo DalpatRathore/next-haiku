@@ -18,7 +18,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "HaikuVerse - Explore the Beauty of Haiku",
+  title: "NextHaiku - Explore the Beauty of Haiku",
   description:
     "A modern platform to discover, create, and share the timeless art of Haiku poetry.",
   keywords:
