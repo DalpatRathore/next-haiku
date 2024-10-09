@@ -1,8 +1,8 @@
 
-import { Resend } from "resend";
+import { render } from "@react-email/components";
+const AUTH_EMAIL = process.env.MAIL_AUTH_EMAIL;
 import VerificationEmail from "@/emails/VerificationEmail";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { transporter } from "@/config/nodemailer";
 
 export async function sendVerificationEmail(
   name: string,
@@ -11,12 +11,16 @@ export async function sendVerificationEmail(
   userId:string,
 ) {
   try {
-    await resend.emails.send({
-      from: "onboarding@resend.dev",
+
+    const emailHtml = await render(VerificationEmail({ name, verificationCode: verifyCode ,userId}));
+    
+    const options = {
+      from: `"${name}" <${AUTH_EMAIL}>`,
       to: email,
       subject: "Email Verification Code",
-      react: VerificationEmail({ name, verificationCode: verifyCode ,userId}),
-    });
+      html: emailHtml,
+    };
+    await transporter.sendMail(options);   
     return {
       success: true,
       message: "Verification email send successfully",
@@ -29,3 +33,4 @@ export async function sendVerificationEmail(
     };
   }
 }
+

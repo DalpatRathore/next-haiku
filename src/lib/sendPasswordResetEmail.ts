@@ -1,8 +1,9 @@
 
-import { Resend } from "resend";
+import { transporter } from "@/config/nodemailer";
 import PasswordResetEmail from "@/emails/PasswordResetEmail";
+import { render } from "@react-email/components";
+const AUTH_EMAIL = process.env.MAIL_AUTH_EMAIL;
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendPasswordResetEmail(
   name: string,
@@ -11,12 +12,16 @@ export async function sendPasswordResetEmail(
   
 ) {
   try {
-    await resend.emails.send({
-      from: "onboarding@resend.dev",
+
+    const emailHtml = await render(PasswordResetEmail({ name, resetCode: verifyCode}));
+    
+    const options = {
+      from: `"${name}" <${AUTH_EMAIL}>`,
       to: email,
       subject: "Password Reset Verification Code",
-      react: PasswordResetEmail({ name, resetCode: verifyCode}),
-    });
+      html: emailHtml,
+    };
+    await transporter.sendMail(options);   
     return {
       success: true,
       message: "Verification email send successfully",
@@ -29,3 +34,4 @@ export async function sendPasswordResetEmail(
     };
   }
 }
+
