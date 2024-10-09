@@ -28,13 +28,13 @@ export const loginUser = async (formData: FormData) => {
         const { email, password } = parsedData.data;
 
         // Find the user by email
-        const user = await UserModel.findOne({ email });
+        const user = await UserModel.findOne({ email }).lean();
 
         // Check if the user exists
         if (!user) {
             return {
                 success: false,
-                message: "Email Account not found. \nPlease register first.",
+                message: "Email account not found. \nPlease register first.",
             };
         }
 
@@ -42,7 +42,7 @@ export const loginUser = async (formData: FormData) => {
         if (!user.isVerified) {
             return {
                 success: false,
-                message: "Please verify your email.",
+                message: "Email account not verified. \nPlease verify your email",
                 userId: String(user._id)
             };
         }

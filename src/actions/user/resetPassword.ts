@@ -42,7 +42,7 @@ export const resetPassword = async (formData: FormData) => {
         if (user.verifyCode !== pin) {
             return {
                 success: false,
-                message: "Invalid verification code.",
+                message: "Invalid password reset verification code. \nPlease use correct code from email.",
             };
         }
 

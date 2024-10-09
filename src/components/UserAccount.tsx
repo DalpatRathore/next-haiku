@@ -22,7 +22,7 @@ import {
   LogOutIcon,
   Settings2Icon,
 } from "lucide-react";
-import { Button } from "./ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 type UserAccountProps = {
   user: {
@@ -34,9 +34,14 @@ const UserAccount = ({ user: { name, email } }: UserAccountProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size={"icon"} className="bg-[#fca311]">
-          <span className="uppercase text-xl">{name.slice(0, 1)}</span>
-        </Button>
+        <Avatar className="border p-1  w-12 h-12 cursor-pointer">
+          <AvatarImage
+            src={`https://avatar.iran.liara.run/username?username=${name}`}
+          />
+          <AvatarFallback className="uppercase">
+            {name.slice(0, 1)}
+          </AvatarFallback>
+        </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-60">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>

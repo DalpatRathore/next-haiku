@@ -60,7 +60,7 @@ const ResendCodeForm = ({ actionType }: ResendCodeFormProps) => {
       if (response?.success) {
         toast.success(response.message);
         if (actionType === "passwordReset" && response.success) {
-          router.push("/reset-password");
+          return router.push("/reset-password");
         }
         setIsDialogOpen(false);
       } else {

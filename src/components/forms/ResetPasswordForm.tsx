@@ -60,11 +60,10 @@ const ResetPasswordForm = () => {
 
       if (!response?.success) {
         toast.error(response?.message);
-        // Optionally redirect or handle other logic based on the response
       } else {
         toast.success("Password reset successfully!");
         form.reset();
-        router.replace("/dashboard"); // Redirect to dashboard
+        return router.replace("/dashboard"); // Redirect to dashboard
       }
     } catch (error) {
       console.log(error);

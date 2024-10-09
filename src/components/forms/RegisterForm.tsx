@@ -58,7 +58,7 @@ const RegisterForm = () => {
       } else {
         toast.success(response?.message);
         form.reset();
-        router.push(`/verify/${response.userId}`);
+        return router.push(`/verify/${response.userId}`);
       }
     } catch (error) {
       console.log(error);

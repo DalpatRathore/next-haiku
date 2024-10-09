@@ -75,7 +75,7 @@ const HaikuForm = ({ formType, haiku }: HaikuFormProps) => {
         toast.success("Haiku updated successfully!");
       }
       form.reset();
-      router.replace("/dashboard");
+      return router.replace("/dashboard");
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
       console.log(error);

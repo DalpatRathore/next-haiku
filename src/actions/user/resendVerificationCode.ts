@@ -15,7 +15,7 @@ export const resendVerificationCode = async (email: string) => {
     if (!user) {
       return {
         success: false,
-        message: "No account found with this email. \nPlease register your account.",
+        message: "No account found with this email. \nPlease register your email.",
       };
     }
 
@@ -23,7 +23,7 @@ export const resendVerificationCode = async (email: string) => {
     if (user.isVerified) {
       return {
         success: false,
-        message: "Account is already verified.",
+        message: "Account is already verified. \nPlease login with credentails",
       };
     }
 
@@ -53,7 +53,7 @@ export const resendVerificationCode = async (email: string) => {
 
     return {
       success: true,
-      message: "Verification email resent.",
+      message: "Verification code email resent.",
     };
   } catch (error) {
     console.error("Error resending verification email:", error);

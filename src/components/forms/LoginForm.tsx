@@ -47,19 +47,19 @@ const LoginForm = () => {
       formData.append("email", values.email);
       formData.append("password", values.password);
       const response = await loginUser(formData);
+
       if (!response?.success) {
         toast.error(response?.message);
-        if (response.userId) {
-          router.push(`/verify/${response.userId}`);
+        if (response.userId && response.userId !== "") {
+          return router.push(`/verify/${response.userId}`);
         }
-
-        if (response.message !== "Invalid email or password.") {
-          router.push(`/sign-up`);
+        if (response.message.trim() !== "Invalid email or password.") {
+          return router.push(`/sign-up`);
         }
       } else {
         toast.success("Login successfully!");
         form.reset();
-        router.replace("/dashboard");
+        return router.replace("/dashboard");
       }
     } catch (error) {
       console.log(error);

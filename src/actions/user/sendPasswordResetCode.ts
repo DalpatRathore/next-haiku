@@ -48,7 +48,7 @@ export const sendPasswordResetCode = async (email: string) => {
 
     return {
       success: true,
-      message: "Password reset verification code sent to email. Please reset your password",
+      message: "Password reset code sent to email. \nPlease reset your password",
     };
   } catch (error) {
     console.error("Error sending password reset email:", error);

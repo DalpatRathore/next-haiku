@@ -33,7 +33,7 @@ export const verifyEmailCode = async (userId: string, code: string) => {
         if (currentTime > user.verifyCodeExpiry) {
             return {
                 success: false,
-                message: "Verfication Code has expired. \nPlease request a new verification code.",
+                message: "Verfication Code has expired. \nPlease request a new code.",
             };
         }
 

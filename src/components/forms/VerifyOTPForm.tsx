@@ -62,7 +62,7 @@ const VerifyOTPForm = ({ userId }: VerifyOTPFormProps) => {
       if (response.success) {
         toast.success(response.message);
         form.reset();
-        router.replace("/dashboard");
+        return router.replace("/dashboard");
       } else {
         toast.error(response.message);
       }

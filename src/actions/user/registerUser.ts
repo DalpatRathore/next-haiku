@@ -74,7 +74,7 @@ export const registerUser = async (formData: FormData) => {
          // Return success with user ID
          return {
             success: true,
-            message: "sign up successful. \nPlease verify email.",
+            message: "User registration successful. \nPlease verify email.",
             userId
         };
 
