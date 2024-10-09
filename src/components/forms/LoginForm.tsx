@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -26,12 +26,17 @@ import { loginFormSchema } from "@/types/types";
 import { loginUser } from "@/actions/user/loginUser";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Loader2Icon } from "lucide-react";
+import { EyeIcon, EyeOffIcon, Loader2Icon, LogInIcon } from "lucide-react";
 import ResendCodeForm from "./ResendCodeForm";
 import Link from "next/link";
 
 const LoginForm = () => {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(prev => !prev);
+  };
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -90,6 +95,7 @@ const LoginForm = () => {
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="password"
@@ -100,21 +106,45 @@ const LoginForm = () => {
                     <ResendCodeForm actionType="passwordReset"></ResendCodeForm>
                   </div>
                   <FormControl>
-                    <Input placeholder="Password" {...field} />
+                    <div className="relative">
+                      <Input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="password"
+                        {...field}
+                      />
+                      <button
+                        type="button"
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                        onClick={togglePasswordVisibility}
+                      >
+                        {showPassword ? (
+                          <EyeOffIcon className="h-5 w-5 text-gray-500" />
+                        ) : (
+                          <EyeIcon className="h-5 w-5 text-gray-500" />
+                        )}
+                      </button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={isSubmitting}
+              size={"lg"}
+            >
               {isSubmitting ? (
                 <>
                   Login...
                   <Loader2Icon className="w-4 h-4 ml-2 animate-spin" />
                 </>
               ) : (
-                " Login"
+                <>
+                  Login <LogInIcon className="w-4 h-4 ml-2" />
+                </>
               )}
             </Button>
           </form>

@@ -8,9 +8,30 @@ export const registerFormSchema = z.object({
     email: z.string().email({
       message: "Please provide valid email.",
     }),
-    password: z.string().min(6, {
-      message: "Password must be at least 6 characters.",
-    }),
+    password: z
+      .string()
+      .min(6, { message: "Password must be at least 6 characters long." })
+      .max(100, { message: "Password cannot exceed 100 characters." })
+      .refine(
+        value => /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{6,}$/.test(value),
+        { message: "Password must contain at least one letter and one number." }
+      ),
+
+    confirmPassword: z
+      .string()
+      .min(6, {
+        message: "Confirm Password must match the password.",
+      })
+      .max(100, { message: "Confirm Password cannot exceed 100 characters." }),
+  })
+  .superRefine(({ password, confirmPassword }, ctx) => {
+    if (confirmPassword !== password) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Passwords do not match.",
+        path: ["confirmPassword"],
+      });
+    }
   });
 
   export const loginFormSchema = z.object({
