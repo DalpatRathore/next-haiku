@@ -30,9 +30,9 @@ const PasswordResetEmail = ({ name, resetCode }: PasswordResetEmailProps) => {
         <Container style={container}>
           <Section style={buttonContainer}>
             <Img
-              src={`https://dalpatrathore.vercel.app/logo.png`}
-              width="75"
-              height="75"
+              src={`${baseUrl}/logo.png`}
+              width="80"
+              height="30"
               alt="logo"
             />
           </Section>

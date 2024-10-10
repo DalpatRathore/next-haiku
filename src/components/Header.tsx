@@ -29,7 +29,14 @@ const Header = async () => {
       <div className="mx-auto max-w-screen-xl px-4 py-6">
         <div className="flex items-center justify-between">
           <Link href={"/"} className="flex items-center justify-center gap-2">
-            <Image src={"/logo.svg"} width={75} height={75} alt="logo" />
+            <Image
+              src={"/logo.svg"}
+              className="w-20 h-auto md:w-20"
+              alt="logo"
+              width={192}
+              height={74}
+            />
+
             <h1 className="hidden md:flex text-2xl font-bold">
               <span className="text-[#4e4187]">Next</span>
               <span className="text-[#fca311]">Haiku</span>
