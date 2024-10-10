@@ -5,15 +5,15 @@ import { jwtVerify } from 'jose';
 const secret = new TextEncoder().encode(process.env.JWT_SECRET!); 
 
 export async function middleware(req: NextRequest) {
-  const token = req.cookies.get("mynexthaiku")?.value; 
+  const cookie = req.cookies.get("mynexthaiku");
+  const token = cookie ? cookie.value : null;
   const url = req.nextUrl.clone(); // Clone the URL to safely modify it
 
   // Define the pages
-  const isAuthPage =
-    url.pathname.startsWith("/sign-in") ||
-    url.pathname.startsWith("/sign-up") ||
-    url.pathname.startsWith("/verify")||
-    url.pathname.startsWith("/reset-password");
+  const isAuthPage = url.pathname.startsWith("/sign-in") ||
+                     url.pathname.startsWith("/sign-up") ||
+                     url.pathname.startsWith("/verify") ||
+                     url.pathname.startsWith("/reset-password");
 
   const isDashboardPage = url.pathname.startsWith("/dashboard");
   const isCreateHaikuPage = url.pathname.startsWith("/create-haiku");
@@ -38,7 +38,7 @@ export async function middleware(req: NextRequest) {
     }
   } catch (error) {
     // Handle invalid token error
-    console.error("JWT verification failed:", error);
+    console.error("JWT verification failed:", error, "URL:", url.pathname);
 
     // Redirect to sign-in if the token is invalid
     if (isDashboardPage || isCreateHaikuPage) {
