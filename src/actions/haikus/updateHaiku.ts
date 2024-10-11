@@ -1,38 +1,24 @@
 "use server";
 import { haikuFormSchema } from "@/types/types"; // Your schema for validation
-import { cookies } from "next/headers"; 
-import jwt from "jsonwebtoken"; 
 import HaikuModel from "@/models/haiku.model"; 
 import dbConnect from "@/config/dbConnect"; 
 import { verifySignature } from "@/lib/verifySignature";
 import { revalidatePath } from "next/cache";
+import { verifyToken } from "@/lib/authUtils";
 
-const JWT_SECRET = process.env.JWT_SECRET!;
 
 export const updateHaiku = async (formData: FormData, id: string) => {
     try {
-        // Retrieve cookies
-        const cookieStore = cookies();
-        const token = cookieStore.get("mynexthaiku")?.value;
+         // Verify the token using the utility function
+         const userId = verifyToken();
 
-        // Check if the token exists
-        if (!token) {
-            return {
-                success: false,
-                message: "Unauthorized user",
-            };
-        }
-
-        // Verify the JWT token and decode it
-        const decodedToken = jwt.verify(token, JWT_SECRET);
-
-        // Validate the decoded token
-        if (typeof decodedToken === "string" || !decodedToken.userId) {
-            return {
-                success: false,
-                message: "Invalid token.",
-            };
-        }
+         // Check if the userId was returned, meaning the token was valid
+         if (!userId) {
+             return {
+                 success: false,
+                 message: "Unauthorized user account",
+             };
+         }
 
         // Parse the form data
         const data = Object.fromEntries(formData.entries());
@@ -50,7 +36,7 @@ export const updateHaiku = async (formData: FormData, id: string) => {
         const { signature, publicId, version } = parsedData.data;
        
         // Fetch the existing haiku to get the current photoId
-        const existingHaiku = await HaikuModel.findOne({ _id: id, user: decodedToken.userId });
+        const existingHaiku = await HaikuModel.findOne({ _id: id, user: userId });
         if (!existingHaiku) {
             return {
                 success: false,
@@ -78,7 +64,7 @@ export const updateHaiku = async (formData: FormData, id: string) => {
 
         // Update the haiku in the database ensuring the user owns the haiku
         const updatedHaiku = await HaikuModel.findOneAndUpdate(
-            { _id: id, user: decodedToken.userId },
+            { _id: id, user: userId },
             updateData,
             { new: true }
         );

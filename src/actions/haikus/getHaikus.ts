@@ -1,38 +1,25 @@
 "use server";
 
-import { cookies } from "next/headers"; 
-import jwt from "jsonwebtoken"; 
 import HaikuModel from "@/models/haiku.model"; 
+import { verifyToken } from "@/lib/authUtils";
 
-const JWT_SECRET = process.env.JWT_SECRET!;
 
 export const getHaikus = async () => {
     try {
-        const cookieStore = cookies(); 
-        const token = cookieStore.get("mynexthaiku")?.value; 
+        // Verify the token using the utility function
+        const userId = verifyToken();
 
-        // Check if the token exists
-        if (!token) {
+        // Check if the userId was returned, meaning the token was valid
+        if (!userId) {
             return {
                 success: false,
-                message: "User is not authenticated.", // User is not logged in
-            };
-        }
-
-        // Verify the JWT token and decode it
-        const decodedToken = jwt.verify(token, JWT_SECRET);
-
-        // Validate that the decoded token contains a valid userId
-        if (typeof decodedToken === "string" || !decodedToken.userId) {
-            return {
-                success: false,
-                message: "Invalid token.", // Token is invalid or userId is missing
+                message: "Unauthorized user account",
             };
         }
 
 
         // Fetch haikus associated with the userId from the decoded token
-        const haikus = await HaikuModel.find({ user: decodedToken.userId })
+        const haikus = await HaikuModel.find({ user: userId })
             .sort({ updatedAt: -1 }) // Sort by updatedAt in descending order
             .lean();
 

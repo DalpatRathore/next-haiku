@@ -1,37 +1,21 @@
 "use server";
 import { haikuFormSchema } from "@/types/types";
-import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
 import HaikuModel from "@/models/haiku.model"; // Import your Haiku model
 import dbConnect from "@/config/dbConnect";
 import { verifySignature } from "@/lib/verifySignature";
 import { revalidatePath } from "next/cache";
-
-const JWT_SECRET = process.env.JWT_SECRET!;
+import { verifyToken } from "@/lib/authUtils"; // Import your verifyToken utility
 
 export const createHaiku = async (formData: FormData) => {
     try {
-        
+        // Verify the token using the utility function
+        const userId = verifyToken();
 
-        const cookieStore = cookies();
-        const token = cookieStore.get("mynexthaiku")?.value;
-
-        // Check if the token exists
-        if (!token) {
+        // Check if the userId was returned, meaning the token was valid
+        if (!userId) {
             return {
                 success: false,
-                message: "Unauthorized user acount",
-            };
-        }
-
-        // Verify the token
-        const decodedToken = jwt.verify(token, JWT_SECRET);
-
-        // Check the decoded token type and userId presence
-        if (typeof decodedToken === "string" || !decodedToken.userId) {
-            return {
-                success: false,
-                message: "Invalid token.",
+                message: "Unauthorized user account",
             };
         }
 
@@ -48,12 +32,11 @@ export const createHaiku = async (formData: FormData) => {
             };
         }
 
-
-        const { line1, line2, line3, signature, publicId,version } = parsedData.data;
+        const { line1, line2, line3, signature, publicId, version } = parsedData.data;
 
         let result;
-        if(signature && publicId && version){
-             result = await verifySignature(version, signature, publicId)
+        if (signature && publicId && version) {
+            result = await verifySignature(version, signature, publicId);
         }
 
         await dbConnect();
@@ -63,8 +46,8 @@ export const createHaiku = async (formData: FormData) => {
             line1,
             line2,
             line3,
-            photoId: result ? publicId :"",
-            user: decodedToken.userId, 
+            photoId: result ? publicId : "",
+            user: userId, // Use the verified userId directly
         });
 
         await newHaiku.save();
