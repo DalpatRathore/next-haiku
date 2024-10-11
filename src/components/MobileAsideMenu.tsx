@@ -5,7 +5,10 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetDescription,
   SheetFooter,
+  SheetHeader,
+  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Link from "next/link";
@@ -27,6 +30,12 @@ const MobileAsideMenu = () => {
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="w-20">
+        <SheetHeader>
+          <SheetTitle className="sr-only">Menu</SheetTitle>
+          <SheetDescription className="sr-only">
+            Navigate through the app using the options below.
+          </SheetDescription>
+        </SheetHeader>
         <aside className="flex flex-col gap-2 mt-12">
           <TooltipProvider>
             <Tooltip>

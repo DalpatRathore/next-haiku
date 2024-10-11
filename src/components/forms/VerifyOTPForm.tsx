@@ -49,7 +49,6 @@ type VerifyOTPFormProps = {
 const VerifyOTPForm = ({ userId }: VerifyOTPFormProps) => {
   const router = useRouter();
   const { authUser, refreshUser } = useAuth();
-  console.log(authUser);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),

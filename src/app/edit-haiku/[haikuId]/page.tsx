@@ -16,7 +16,7 @@ const EditHaikuIdPage = async ({ params }: { params: { haikuId: string } }) => {
 
   if (!response.success || !response.haiku) {
     return (
-      <div className="w-full h-full max-w-lg mx-auto flex flex-col items-center justify-center">
+      <div className="w-full h-full max-w-lg mx-auto flex flex-col items-center justify-center py-6 px-5 gap-5">
         <Card className=" w-full text-center h-32 flex items-center justify-center">
           <CardContent className="p-0">
             <p className="text-lg font-semibold">No record found!</p>
@@ -41,7 +41,7 @@ const EditHaikuIdPage = async ({ params }: { params: { haikuId: string } }) => {
   };
 
   return (
-    <div className="h-full w-full flex items-center justify-center py-8">
+    <div className="h-full w-full flex items-center justify-center py-6 px-5 gap-5">
       <HaikuForm formType="Update" haiku={haiku}></HaikuForm>
     </div>
   );

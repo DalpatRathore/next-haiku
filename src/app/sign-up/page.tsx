@@ -3,7 +3,7 @@ import React from "react";
 
 const SignUpPage = () => {
   return (
-    <div className="h-full w-full flex items-center justify-center py-10">
+    <div className="h-full w-full flex items-center justify-center py-6 px-5">
       <RegisterForm></RegisterForm>
     </div>
   );

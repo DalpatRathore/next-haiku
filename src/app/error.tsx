@@ -14,7 +14,7 @@ export default function Error({
     console.error(error);
   }, [error]);
   return (
-    <div className="mt-10 w-full max-w-7xl mx-auto">
+    <div className="mt-10 w-full max-w-7xl mx-auto py-6 px-5">
       <Card className="text-center h-96 flex flex-col items-center justify-center">
         <CardHeader>
           <CardTitle className="flex item-center justify-center">
