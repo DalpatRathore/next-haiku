@@ -33,7 +33,7 @@ const PasswordResetEmail = ({ name, resetCode }: PasswordResetEmailProps) => {
               src={`${baseUrl}/logo.png`}
               width="80"
               height="30"
-              alt="logo"
+              alt="NextHaiku"
             />
           </Section>
           <Heading style={codeTitle}>Hi, {name}</Heading>
