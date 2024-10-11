@@ -4,18 +4,13 @@ import dbConnect from "@/config/dbConnect";
 import UserModel from "@/models/user.model";
 import { loginFormSchema } from "@/types/types";
 import bcrypt from 'bcryptjs'; 
-import jwt from 'jsonwebtoken'; 
-import { cookies } from "next/headers"; 
-
-const JWT_SECRET = process.env.JWT_SECRET!;
+import { createToken, setToken } from "@/lib/authUtils"; 
 
 export const loginUser = async (formData: FormData) => {
     try {
-        // Convert FormData to a plain object
         const data = Object.fromEntries(formData.entries()); 
         const parsedData = loginFormSchema.safeParse(data);
 
-        // Check for validation errors
         if (!parsedData.success) {
             return {
                 success: false,
@@ -27,10 +22,8 @@ export const loginUser = async (formData: FormData) => {
         await dbConnect();
         const { email, password } = parsedData.data;
 
-        // Find the user by email
         const user = await UserModel.findOne({ email }).lean();
 
-        // Check if the user exists
         if (!user) {
             return {
                 success: false,
@@ -38,7 +31,6 @@ export const loginUser = async (formData: FormData) => {
             };
         }
 
-        // Check if the user is verified
         if (!user.isVerified) {
             return {
                 success: false,
@@ -47,7 +39,6 @@ export const loginUser = async (formData: FormData) => {
             };
         }
 
-        // Compare the password with the hashed password in the database
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
             return {
@@ -56,23 +47,8 @@ export const loginUser = async (formData: FormData) => {
             };
         }
 
-        // Create JWT token
-        const tokenValue = jwt.sign(
-            {
-                name: user.name,
-                userId: user._id,
-                exp: Math.floor(Date.now() / 1000 + 60 * 60 * 24), // Token expires in 24 hours
-            },
-            JWT_SECRET,
-        );
-
-        // Set the cookie with the JWT
-        cookies().set("mynexthaiku", tokenValue, {
-            httpOnly: true,
-            sameSite: "strict",
-            maxAge: 60 * 60 * 24,
-            secure: true,
-        });
+        const tokenValue = createToken(user._id.toString(), "24h"); // Specify expiration time
+        setToken(tokenValue); // Use default maxAge (1 hour) or specify as needed
 
         return {
             success: true,

@@ -14,7 +14,7 @@ import {
 const LogoutUser = () => {
   const router = useRouter();
   const handleLogout = async () => {
-    await logoutUser();
+    logoutUser();
     router.replace("/sign-in");
   };
 

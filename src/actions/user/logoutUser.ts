@@ -1,16 +1,10 @@
 "use server"; 
 
-import { cookies } from "next/headers";
+import { deleteToken } from "@/lib/authUtils";
 
 export const logoutUser = async () => {
     try {
-        // Clear the authentication cookie
-        cookies().set("mynexthaiku", "", {
-            httpOnly: true,
-            sameSite: "strict",
-            maxAge: -1, // Setting maxAge to -1 will expire the cookie immediately
-            secure: true,
-        });
+        deleteToken();
 
     } catch (error) {
         console.error("Error logging out:", error);
