@@ -29,8 +29,11 @@ import { useRouter } from "next/navigation";
 import { EyeIcon, EyeOffIcon, Loader2Icon, LogInIcon } from "lucide-react";
 import ResendCodeForm from "./ResendCodeForm";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
 const LoginForm = () => {
+  const { refreshUser } = useAuth();
+
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -62,6 +65,7 @@ const LoginForm = () => {
           return router.push(`/sign-up`);
         }
       } else {
+        await refreshUser();
         toast.success("Login successfully!");
         form.reset();
         return router.replace("/dashboard");

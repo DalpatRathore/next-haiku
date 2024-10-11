@@ -1,15 +1,15 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   ImagePlusIcon,
   LogInIcon,
   SquareArrowOutUpRightIcon,
+  ImageIcon,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 import UserAccount from "./UserAccount";
-import { getUser } from "@/actions/user/getUser";
 import LogoutUser from "./LogoutUser";
 import {
   Tooltip,
@@ -17,69 +17,37 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
-import { ImageIcon } from "lucide-react";
 import { DashboardIcon } from "@radix-ui/react-icons";
 import { Button } from "./ui/button";
 import MobileAsideMenu from "./MobileAsideMenu";
-
-interface AuthUser {
-  success: boolean;
-  message?: string; // Message may or may not exist
-  user?: {
-    name: string;
-    email: string;
-  };
-  error?: string; // Error exists in case of failure
-}
+import { useAuth } from "@/context/AuthContext";
 
 const Header = () => {
-  const [authUser, setAuthUser] = useState<AuthUser | null>(null);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const result: AuthUser = await getUser();
-      if (result.success && result.user) {
-        // User is authenticated
-        setAuthUser({
-          success: true,
-          user: result.user, // Set the user object directly
-          message: result.message, // Optionally set message
-        });
-      } else if (result.error) {
-        // An error occurred
-        console.error(result.error);
-        setAuthUser(null); // Reset user state on error
-      } else {
-        // User is not authenticated
-        setAuthUser(null);
-      }
-    };
-
-    fetchUser();
-  }, []);
-
+  const { authUser } = useAuth();
   return (
     <header className="border-b">
       <div className="mx-auto max-w-screen-xl px-4 py-6">
         <div className="flex items-center justify-between">
-          <Link href={"/"} className="flex items-center justify-center gap-2">
+          {/* Logo Section */}
+          <Link href="/" className="flex items-center justify-center gap-2">
             <Image
-              src={"/logo.svg"}
-              className="w-20 h-auto md:w-20"
-              alt="logo"
+              src="/logo.svg"
+              className="w-20 h-auto"
+              alt="NextHaiku logo"
               width={192}
               height={74}
             />
-
             <h1 className="hidden md:flex text-2xl font-bold">
               <span className="text-[#4e4187]">Next</span>
               <span className="text-[#fca311]">Haiku</span>
             </h1>
           </Link>
 
+          {/* User Navigation Section */}
           <div className="flex items-center gap-4">
             {authUser?.user ? (
               <>
+                {/* Authenticated User Navigation */}
                 <TooltipProvider>
                   <nav className="hidden md:flex items-center gap-4">
                     <Tooltip>
@@ -93,6 +61,7 @@ const Header = () => {
                       </TooltipTrigger>
                       <TooltipContent side="bottom">Dashboard</TooltipContent>
                     </Tooltip>
+
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button variant="outline" size="icon" asChild>
@@ -106,6 +75,7 @@ const Header = () => {
                         Create Haiku
                       </TooltipContent>
                     </Tooltip>
+
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button
@@ -124,41 +94,46 @@ const Header = () => {
                     </Tooltip>
                   </nav>
                 </TooltipProvider>
+
                 <div className="block md:hidden">
-                  <MobileAsideMenu></MobileAsideMenu>
+                  <MobileAsideMenu />
                 </div>
-                <UserAccount user={authUser.user}></UserAccount>
+                <UserAccount user={authUser.user} />
                 <LogoutUser />
               </>
             ) : (
-              <TooltipProvider>
-                <nav className="flex items-center gap-4">
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button variant="outline" size="icon" asChild>
-                        <Link href="/sign-in">
-                          <LogInIcon className="w-4 h-4" />
-                          <span className="sr-only">Sign In</span>
-                        </Link>
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent side="bottom">Sign In</TooltipContent>
-                  </Tooltip>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button variant="outline" size="icon" asChild>
-                        <Link href="/sign-up">
-                          <SquareArrowOutUpRightIcon className="w-4 h-4" />
-                          <span className="sr-only">Sign Up</span>
-                        </Link>
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent side="bottom">Sign Up</TooltipContent>
-                  </Tooltip>
-                </nav>
-              </TooltipProvider>
-            )}
+              <>
+                {/* Unauthenticated User Navigation */}
+                <TooltipProvider>
+                  <nav className="flex items-center gap-4">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="outline" size="icon" asChild>
+                          <Link href="/sign-in">
+                            <LogInIcon className="w-4 h-4" />
+                            <span className="sr-only">Sign In</span>
+                          </Link>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom">Sign In</TooltipContent>
+                    </Tooltip>
 
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="outline" size="icon" asChild>
+                          <Link href="/sign-up">
+                            <SquareArrowOutUpRightIcon className="w-4 h-4" />
+                            <span className="sr-only">Sign Up</span>
+                          </Link>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom">Sign Up</TooltipContent>
+                    </Tooltip>
+                  </nav>
+                </TooltipProvider>
+              </>
+            )}
+            {/* Theme Toggle */}
             <ThemeToggle />
           </div>
         </div>

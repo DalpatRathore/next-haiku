@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "@/context/AuthContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -42,12 +43,14 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="min-h-[100vh] h-full grid grid-rows-[auto_1fr_auto]">
-            <Header></Header>
-            <main className="w-full mx-auto max-w-screen-xl h-full">
-              {children}
-            </main>
-            <Footer></Footer>
-            <Toaster />
+            <AuthProvider>
+              <Header></Header>
+              <main className="w-full mx-auto max-w-screen-xl h-full">
+                {children}
+              </main>
+              <Footer></Footer>
+              <Toaster />
+            </AuthProvider>
           </div>
         </ThemeProvider>
       </body>

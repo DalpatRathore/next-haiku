@@ -1,5 +1,4 @@
 "use client";
-import { logoutUser } from "@/actions/user/logoutUser";
 import React from "react";
 import { Button } from "./ui/button";
 import { LogOutIcon } from "lucide-react";
@@ -10,12 +9,15 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
+import { useAuth } from "@/context/AuthContext";
 
 const LogoutUser = () => {
+  const { logoutUser } = useAuth(); // Use context logout
   const router = useRouter();
+
   const handleLogout = async () => {
-    logoutUser();
-    router.replace("/sign-in");
+    await logoutUser(); // Call the context logout
+    router.replace("/sign-in"); // Redirect after logout
   };
 
   return (

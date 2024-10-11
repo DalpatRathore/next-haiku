@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -36,9 +36,12 @@ import {
 } from "@/components/ui/input-otp";
 import { resetPassword } from "@/actions/user/resetPassword";
 import { Separator } from "../ui/separator";
+import { useAuth } from "@/context/AuthContext";
 
 const ResetPasswordForm = () => {
   const router = useRouter();
+  const { authUser, refreshUser } = useAuth();
+
   const form = useForm<z.infer<typeof resetPasswordFormSchema>>({
     resolver: zodResolver(resetPasswordFormSchema),
     defaultValues: {
@@ -61,6 +64,7 @@ const ResetPasswordForm = () => {
       if (!response?.success) {
         toast.error(response?.message);
       } else {
+        await refreshUser();
         toast.success("Password reset successfully!");
         form.reset();
         return router.replace("/dashboard"); // Redirect to dashboard
@@ -70,6 +74,19 @@ const ResetPasswordForm = () => {
       toast.error("Something went wrong!");
     }
   };
+
+  useEffect(() => {
+    const checkUserVerification = async () => {
+      // Check if the user is already verified
+      if (authUser?.success) {
+        router.replace("/dashboard"); // Redirect to dashboard if verified
+      } else {
+        await refreshUser(); // Refresh user data if needed
+      }
+    };
+
+    checkUserVerification();
+  }, [authUser, router, refreshUser]);
 
   return (
     <Card className="w-full mx-auto max-w-lg px-10">

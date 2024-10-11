@@ -33,6 +33,8 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import ResendCodeForm from "./ResendCodeForm";
 import { Loader2Icon } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
+import { useEffect } from "react";
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
@@ -46,6 +48,8 @@ type VerifyOTPFormProps = {
 
 const VerifyOTPForm = ({ userId }: VerifyOTPFormProps) => {
   const router = useRouter();
+  const { authUser, refreshUser } = useAuth();
+  console.log(authUser);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -60,6 +64,7 @@ const VerifyOTPForm = ({ userId }: VerifyOTPFormProps) => {
     try {
       const response = await verifyEmailCode(userId, values.pin);
       if (response.success) {
+        await refreshUser();
         toast.success(response.message);
         form.reset();
         return router.replace("/dashboard");
@@ -71,6 +76,18 @@ const VerifyOTPForm = ({ userId }: VerifyOTPFormProps) => {
       toast.error("Something went wrong. Please try again.");
     }
   };
+  useEffect(() => {
+    const checkUserVerification = async () => {
+      // Check if the user is already verified
+      if (authUser?.success) {
+        router.replace("/dashboard"); // Redirect to dashboard if verified
+      } else {
+        await refreshUser(); // Refresh user data if needed
+      }
+    };
+
+    checkUserVerification();
+  }, [authUser, router, refreshUser]);
 
   return (
     <Card className="p-10 mx-5">
