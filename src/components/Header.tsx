@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import {
   ImagePlusIcon,
   LogInIcon,
@@ -21,8 +22,41 @@ import { DashboardIcon } from "@radix-ui/react-icons";
 import { Button } from "./ui/button";
 import MobileAsideMenu from "./MobileAsideMenu";
 
-const Header = async () => {
-  const authUser = await getUser();
+interface AuthUser {
+  success: boolean;
+  message?: string; // Message may or may not exist
+  user?: {
+    name: string;
+    email: string;
+  };
+  error?: string; // Error exists in case of failure
+}
+
+const Header = () => {
+  const [authUser, setAuthUser] = useState<AuthUser | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const result: AuthUser = await getUser();
+      if (result.success && result.user) {
+        // User is authenticated
+        setAuthUser({
+          success: true,
+          user: result.user, // Set the user object directly
+          message: result.message, // Optionally set message
+        });
+      } else if (result.error) {
+        // An error occurred
+        console.error(result.error);
+        setAuthUser(null); // Reset user state on error
+      } else {
+        // User is not authenticated
+        setAuthUser(null);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   return (
     <header className="border-b">
@@ -44,7 +78,7 @@ const Header = async () => {
           </Link>
 
           <div className="flex items-center gap-4">
-            {authUser.user ? (
+            {authUser?.user ? (
               <>
                 <TooltipProvider>
                   <nav className="hidden md:flex items-center gap-4">

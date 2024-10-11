@@ -1,54 +1,42 @@
 "use server";
-import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
 import UserModel from "@/models/user.model";
 import dbConnect from "@/config/dbConnect";
-
-const JWT_SECRET = process.env.JWT_SECRET!
+import { verifyToken } from "@/lib/authUtils";
 
 export const getUser = async () => {
     try {
+
+        const userId = verifyToken();
+
+        if (!userId) {
+            return {
+                success: false,
+                message: "User is not authenticated or token is invalid.",
+            };
+        }
         await dbConnect();
+        const user = await UserModel.findById(userId).select("-password"); 
 
-        const cookieStore = cookies();
-        const token = cookieStore.get("mynexthaiku")?.value;
-
-        if (!token) {
-            return {
-                success: false,
-                message: "User is not authenticated.",
-            };
-        }
-
-        // Verify the JWT token
-        const decodedToken = jwt.verify(token, JWT_SECRET);
-
-        // Check if decodedToken is a valid JWT payload
-        if (typeof decodedToken === "string" || !decodedToken.userId) {
-            return {
-                success: false,
-                message: "Invalid token.",
-            };
-        }
-
-        // Fetch the user from the database using the userId from the token
-        const user = await UserModel.findById(decodedToken.userId).select("-password"); // Exclude the password from the returned user
-        
         if (!user) {
             return {
                 success: false,
                 message: "Account not found. Please register first",
             };
         }
+        // Convert the Mongoose document to a plain object
+        const userObject = user.toObject();
 
-           // Convert the Mongoose document to a plain object
-           const userObject = user.toObject();
+        // Ensure userObject conforms to AuthUser.user structure
+        const formattedUser = {
+            name: userObject.name,
+            email: userObject.email,
+        };
 
-           // Return the plain user object
-           return {
-               success: true,
-               user: userObject,
-           };
+        // Return the plain user object
+        return {
+            success: true,
+            user: formattedUser,
+        };
     } catch (error) {
         console.error("Error fetching user:", error);
         return {

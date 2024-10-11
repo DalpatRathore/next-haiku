@@ -6,6 +6,8 @@ import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import React from "react";
 
+export const dynamic = "force-dynamic";
+
 type HaikusResponse = {
   success: boolean;
   message: string;
