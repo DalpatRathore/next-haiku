@@ -157,8 +157,8 @@ const LoginForm = () => {
       <CardFooter className="flex items-center justify-center">
         <p className="text-center text-sm">
           Don&apos;t have an account?
-          <Link href="/sign-up" className="underline ml-2">
-            Sign Up
+          <Link href="/sign-up" className="underline">
+            &nbsp;Sign Up
           </Link>
         </p>
       </CardFooter>

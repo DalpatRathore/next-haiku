@@ -80,7 +80,7 @@ const VerifyOTPForm = ({ userId }: VerifyOTPFormProps) => {
     const checkUserVerification = async () => {
       // Check if the user is already verified
       if (authUser?.success) {
-        router.replace("/dashboard"); // Redirect to dashboard if verified
+        return router.replace("/dashboard"); // Redirect to dashboard if verified
       } else {
         await refreshUser(); // Refresh user data if needed
       }

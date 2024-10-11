@@ -208,8 +208,8 @@ const RegisterForm = () => {
       <CardFooter className="flex items-center justify-center">
         <p className="text-center text-sm">
           Already have an account?
-          <Link href="/sign-in" className="underline ml-2">
-            Sign in
+          <Link href="/sign-in" className="underline">
+            &nbsp;Sign in
           </Link>
         </p>
       </CardFooter>
