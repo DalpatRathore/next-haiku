@@ -3,6 +3,7 @@
 import HaikuModel from "@/models/haiku.model"; 
 import { revalidatePath } from "next/cache";
 import { verifyToken } from "@/lib/authUtils";
+import dbConnect from "@/config/dbConnect";
 
 
 export const deleteHaiku = async (haikuId: string) => {
@@ -18,7 +19,7 @@ export const deleteHaiku = async (haikuId: string) => {
                  message: "Unauthorized user account",
              };
          }
-
+         await dbConnect();
         // Delete the haiku associated with the userId and haikuId
         const deletedHaiku = await HaikuModel.findOneAndDelete({
             _id: haikuId,

@@ -2,6 +2,7 @@
 
 import HaikuModel from "@/models/haiku.model"; 
 import { verifyToken } from "@/lib/authUtils";
+import dbConnect from "@/config/dbConnect";
 
 
 export const getHaikus = async () => {
@@ -17,7 +18,7 @@ export const getHaikus = async () => {
             };
         }
 
-
+        await dbConnect();
         // Fetch haikus associated with the userId from the decoded token
         const haikus = await HaikuModel.find({ user: userId })
             .sort({ updatedAt: -1 }) // Sort by updatedAt in descending order

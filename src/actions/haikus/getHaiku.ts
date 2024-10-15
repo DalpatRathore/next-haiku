@@ -2,6 +2,7 @@
 
 import HaikuModel from "@/models/haiku.model"; 
 import { verifyToken } from "@/lib/authUtils";
+import dbConnect from "@/config/dbConnect";
 
 
 export const getHaiku = async (haikuId: string) => {
@@ -17,7 +18,7 @@ export const getHaiku = async (haikuId: string) => {
                 message: "Unauthorized user account",
             };
         }
-
+        await dbConnect();
         // Fetch haiku associated with the haikuId and userId
         const haiku = await HaikuModel.findOne({ _id: haikuId, user: userId }).lean();
 
